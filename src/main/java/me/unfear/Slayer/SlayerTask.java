@@ -46,8 +46,4 @@ public class SlayerTask {
 	public int getReward() {
 		return reward;
 	}
-
-	public void complete(PlayerData data) {
-
-	}
 }

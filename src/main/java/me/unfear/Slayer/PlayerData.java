@@ -150,7 +150,6 @@ public class PlayerData {
 		ArrayList<SlayerTask> tasks = Slayer.inst.getSlayerLoader().getSlayerTasks();
 		int i = -1;
 		while (i == -1 || (tasks.get(i) == this.currentTask && tasks.size() > 1)) {
-			System.out.println(tasks.size());
 			i = RANDOM.nextInt(tasks.size()); // so the player doesn't get the same task 2x in a row
 		}
 		this.setCurrentTask(tasks.get(i));
