@@ -55,12 +55,12 @@ public class SlayerShopMenu {
 		background.setItemMeta(backgroundMeta);
 		
 		final ItemStack prevArrow = new ItemStack(Material.ARROW);
-		final ItemMeta prevArrowMeta = background.getItemMeta();
+		final ItemMeta prevArrowMeta = prevArrow.getItemMeta();
 		prevArrowMeta.setDisplayName(ChatColor.GRAY + "Previous Page");
 		prevArrow.setItemMeta(prevArrowMeta);
 		
 		final ItemStack nextArrow = new ItemStack(Material.ARROW);
-		final ItemMeta nextArrowMeta = background.getItemMeta();
+		final ItemMeta nextArrowMeta = nextArrow.getItemMeta();
 		nextArrowMeta.setDisplayName(ChatColor.GRAY + "Next Page");
 		nextArrow.setItemMeta(nextArrowMeta);
 		
