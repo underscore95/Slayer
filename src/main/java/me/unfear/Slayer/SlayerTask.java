@@ -2,18 +2,18 @@ package me.unfear.Slayer;
 
 import java.util.ArrayList;
 
-import org.bukkit.entity.EntityType;
+import me.unfear.Slayer.mobtypes.MobType;
 
 public class SlayerTask {
 
 	private int id;
-	private EntityType mobType;
+	private MobType mobType;
 	private int kills;
 	private String name;
 	private ArrayList<String> description;
 	private int reward;
 
-	public SlayerTask(int id, EntityType mobType, int kills, String name, ArrayList<String> description, int reward) {
+	public SlayerTask(int id, MobType mobType, int kills, String name, ArrayList<String> description, int reward) {
 		super();
 		this.id = id;
 		this.mobType = mobType;
@@ -27,7 +27,7 @@ public class SlayerTask {
 		return id;
 	}
 
-	public EntityType getMobType() {
+	public MobType getMobType() {
 		return mobType;
 	}
 

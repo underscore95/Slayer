@@ -17,7 +17,6 @@ import com.github.stefvanschie.inventoryframework.pane.Pane.Priority;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 
 import me.unfear.Slayer.PlayerData;
-import me.unfear.Slayer.Utils;
 
 public class SlayerMenu {
 
@@ -37,12 +36,13 @@ public class SlayerMenu {
 						ChatColor.translateAlternateColorCodes('&', "&7Current Task: &4"
 								+ (data.getCurrentTask() == null ? "None" : data.getCurrentTask().getName()))));
 		profile.setItemMeta(profileMeta);
-		
+
 		// shop
 		final ItemStack shop = new ItemStack(Material.GOLD_NUGGET);
 		final ItemMeta shopMeta = shop.getItemMeta();
 		shopMeta.setDisplayName(ChatColor.GOLD + "Slayer Shop");
-		shopMeta.setLore(Arrays.asList(ChatColor.GRAY + "Spend your hard-earned " + ChatColor.DARK_PURPLE + "Slayer Points"));
+		shopMeta.setLore(
+				Arrays.asList(ChatColor.GRAY + "Spend your hard-earned " + ChatColor.DARK_PURPLE + "Slayer Points"));
 		shop.setItemMeta(shopMeta);
 
 		// current slayer task
@@ -55,10 +55,8 @@ public class SlayerMenu {
 			for (String line : data.getCurrentTask().getDescription())
 				lore.add(ChatColor.translateAlternateColorCodes('&', "&f" + line));
 			lore.add("");
-			lore.add(ChatColor.translateAlternateColorCodes('&',
-					"&7Progress: &f" + data.getKills() + " &8/ &f" + data.getCurrentTask().getKills() + " &7" + Utils
-							.prettyEntityType(data.getCurrentTask().getMobType(), data.getCurrentTask().getKills() != 1)
-							+ " slain"));
+			lore.add(ChatColor.translateAlternateColorCodes('&', "&7Progress: &f" + data.getKills() + " &8/ &f"
+					+ data.getCurrentTask().getKills() + " &7" + data.getCurrentTask().getMobType().getName() + " slain"));
 			currentMeta.setLore(lore);
 		}
 		currentMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -102,8 +100,7 @@ public class SlayerMenu {
 			event.getWhoClicked()
 					.sendMessage(ChatColor.translateAlternateColorCodes('&',
 							"&c&lSLAYER TASK &7Slay &f" + data.getCurrentTask().getKills() + " &7"
-									+ Utils.prettyEntityType(data.getCurrentTask().getMobType(),
-											data.getCurrentTask().getKills() != 1)));
+									+ data.getCurrentTask().getMobType().getName()));
 		}), 7, 1);
 		if (data.getCurrentTask() != null)
 			main.addItem(new GuiItem(current), 1, 1);

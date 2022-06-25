@@ -7,17 +7,21 @@ import org.bukkit.scheduler.BukkitRunnable;
 import me.unfear.Slayer.commands.SlayerCommand;
 import me.unfear.Slayer.listeners.EntityDeathListener;
 import me.unfear.Slayer.listeners.SpawnerSpawnListener;
+import me.unfear.Slayer.mobtypes.MobTypeLoader;
 
 public class Slayer extends JavaPlugin {
 	
 	public static Slayer inst;
 	
+	private MobTypeLoader mobTypeLoader;
 	private SlayerLoader slayerLoader;
 
 	public void onEnable() {
 		inst = this;
 		
 		this.saveDefaultConfig();
+		
+		this.mobTypeLoader = new MobTypeLoader();
 		this.slayerLoader = new SlayerLoader();
 		
 		final PluginManager pm = this.getServer().getPluginManager();
@@ -36,6 +40,10 @@ public class Slayer extends JavaPlugin {
 	public void onDisable() { 
 		if (slayerLoader != null) // its null if something fails to load and the plugin is disabled
 		slayerLoader.save();
+	}
+	
+	public MobTypeLoader getMobTypeLoader() {
+		return mobTypeLoader;
 	}
 
 	public SlayerLoader getSlayerLoader() {

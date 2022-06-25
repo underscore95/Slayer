@@ -1,0 +1,42 @@
+# ALL IDS MUST BE NUMBERS
+mob-types:
+   0: # Id, must be unique, referenced in config.yml to create a task with this mob-type
+      name: Zombie # Name of the mob, place in double quotes if using colours
+      entity: ZOMBIE # For a list of vanilla entity types, see: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+      type: VANILLA # Options: VANILLA, MYTHIC_MOBS
+   1:
+      name: "&5Enderman" # In double quotes because colours are being used
+      entity: ENDERMAN
+      type: VANILLA
+   2:
+      name: Guardian
+      entity: GUARDIAN
+      type: VANILLA
+   3:
+      name: Piglin
+      entity: PIGLIN
+      type: VANILLA
+   4:
+      name: Creeper
+      entity: CREEPER
+      type: VANILLA
+   5:
+      name: Skeleton
+      entity: SKELETON
+      type: VANILLA
+   6:
+      name: Pufferfish
+      entity: PUFFERFISH
+      type: VANILLA
+   7:
+      name: Spider
+      entity: SPIDER
+      type: VANILLA
+   8:
+      name: Cow
+      entity: COW
+      type: VANILLA
+   9:
+      name: "&4Skeletal Knight"
+      mythicmob: SkeletalKnight # Internal mob name of the MythicMob. See https://git.mythiccraft.io/mythiccraft/MythicMobs/-/wikis/Mobs
+      type: MYTHIC_MOBS

@@ -28,7 +28,7 @@ public class EntityDeathListener implements Listener {
 		if (fromSpawner && !loader.isAllowSpawners()) return;
 		
 		final PlayerData data = loader.getPlayerData(player.getUniqueId());
-		if (data.getCurrentTask() == null || data.getCurrentTask().getMobType() != entity.getType()) return;
+		if (data.getCurrentTask() == null || !data.getCurrentTask().getMobType().isThis(entity)) return;
 		data.setKills(data.getKills() + 1);
 	}
 }

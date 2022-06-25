@@ -10,7 +10,8 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
+
+import me.unfear.Slayer.mobtypes.MobType;
 
 public class SlayerLoader {
 	private ArrayList<SlayerTask> slayerTasks;
@@ -58,10 +59,18 @@ public class SlayerLoader {
 				return;
 			}
 
-			final EntityType mobType = EntityType.valueOf(mobTypeString);
+			try {
+				Integer.parseInt(mobTypeString);
+			} catch (NumberFormatException e) {
+				Slayer.inst.getLogger().severe("Failed to load a slayer task, mob type id isn't an integer (id=" + id + ", mob type id: " + mobTypeString + ")");
+				Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+				return;
+			}
+			
+			final MobType mobType = Slayer.inst.getMobTypeLoader().getMobType(Integer.parseInt(mobTypeString));
 
 			if (mobType == null) {
-				Slayer.inst.getLogger().severe("Failed to load a slayer task, mob type not a mob (id=" + id + ")");
+				Slayer.inst.getLogger().severe("Failed to load a slayer task, mob type not a mob (id=" + id + ", mob type id: " + mobTypeString + ")");
 				Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
 				return;
 			}

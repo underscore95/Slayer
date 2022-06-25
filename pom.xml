@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>me.unfear.Slayer</groupId>
 	<artifactId>Slayer</artifactId>
-	<version>0.0.2</version>
+	<version>0.1.0</version>
 	<name>Slayer</name>
 
 	<properties>
@@ -66,12 +66,15 @@
 			<version>2.10.0</version>
 		</dependency>
 
-		<!-- Apache Commons -->
+		<!-- Mythic Mobs -->
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-text</artifactId>
-			<version>1.9</version>
+			<groupId>io.lumine</groupId>
+			<artifactId>Mythic-Dist</artifactId>
+			<version>5.0.4</version>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
+
 	</dependencies>
 
 	<repositories>
@@ -87,5 +90,13 @@
 			<url>https://repo.codemc.org/repository/maven-public/</url>
 			<layout>default</layout>
 		</repository>
+
+		<!-- Mythic Mobs -->
+		<repository>
+			<id>nexus</id>
+			<name>Lumine Releases</name>
+			<url>https://mvn.lumine.io/repository/maven-public/</url>
+		</repository>
+
 	</repositories>
 </project>
