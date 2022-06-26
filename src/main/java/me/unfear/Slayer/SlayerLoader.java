@@ -62,8 +62,9 @@ public class SlayerLoader {
 			try {
 				Integer.parseInt(mobTypeString);
 			} catch (NumberFormatException e) {
-				Slayer.inst.getLogger().severe("Failed to load a slayer task, mob type id isn't an integer (id=" + id
-						+ ", mob type id: " + mobTypeString + ")");
+				Slayer.inst.getLogger().severe("Failed to load a slayer task, mob type isn't an integer (id=" + id
+						+ ", mob type: " + mobTypeString + ")");
+				Slayer.inst.getLogger().severe("Just updated to v0.1.0? Take a look at this: https://github.com/unfear-underscore/Slayer/wiki/Updating-to-0.1.0");
 				Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
 				return;
 			}
