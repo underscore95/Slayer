@@ -14,6 +14,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import me.unfear.Slayer.mobtypes.MobType;
+
 public class PlayerData {
 
 	public static final Random RANDOM = new Random();
@@ -25,8 +27,9 @@ public class PlayerData {
 	private int tasksCompleted;
 	private boolean hasSentMessage = false; // this isn't saved intentionally, incase player forgets about the task
 	private HashMap<Integer, Integer> shopItemsPurchased; // shop item id, purchases
+	private HashMap<Integer, Integer> entityKills;
 
-	public PlayerData(UUID player, int kills, SlayerTask currentTask, int points, int tasksCompleted, HashMap<Integer, Integer> shopItemsPurchased) {
+	public PlayerData(UUID player, int kills, SlayerTask currentTask, int points, int tasksCompleted, HashMap<Integer, Integer> shopItemsPurchased, HashMap<Integer, Integer> entityKills) {
 		super();
 		this.player = player;
 		this.kills = kills;
@@ -34,10 +37,23 @@ public class PlayerData {
 		this.points = points;
 		this.tasksCompleted = tasksCompleted;
 		this.shopItemsPurchased = shopItemsPurchased;
+		this.entityKills = entityKills;
+		for (MobType type : Slayer.inst.getMobTypeLoader().getMobTypes()) {
+			this.entityKills.putIfAbsent(type.getId(), 0);
+		}
 	}
 
 	public PlayerData(UUID player) {
-		this(player, 0, null, 0, 0, new HashMap<>());
+		this(player, 0, null, 0, 0, new HashMap<>(), new HashMap<>());
+	}
+	
+	public HashMap<Integer, Integer> getEntityKills() {
+		return this.entityKills;
+	}
+	
+	public void incrementEntityKills(int id) {
+		this.entityKills.putIfAbsent(id, 0);
+		this.entityKills.put(id, this.entityKills.get(id) + 1);
 	}
 	
 	public HashMap<Integer, Integer> getShopItemsPurchased() {
@@ -135,6 +151,10 @@ public class PlayerData {
 		
 		for (Entry<Integer, Integer> entry : shopItemsPurchased.entrySet()) {
 			config.set("shop-items-purchased." + entry.getKey(), entry.getValue());
+		}
+		
+		for (Entry<Integer, Integer> entry : entityKills.entrySet()) {
+			config.set("entity-kills." + entry.getKey(), entry.getValue());
 		}
 
 		try {

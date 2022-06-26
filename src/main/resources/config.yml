@@ -100,8 +100,8 @@ tasks:
       description:
        - "&7Dave wants a &6&lsuper steak&7!"
       reward: 1
-   11:
-      mob-type: 9
+   11: # If you have Mythic Mobs you could make this an actual Skeletal Knight!
+      mob-type: 5
       kills: 1
       name: Skeletal Knight Subjugation
       description:

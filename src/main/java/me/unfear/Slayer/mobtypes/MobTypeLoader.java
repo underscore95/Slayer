@@ -3,6 +3,7 @@ package me.unfear.Slayer.mobtypes;
 import java.io.File;
 import java.util.HashSet;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -113,6 +114,13 @@ public class MobTypeLoader {
 			return null;
 		}
 
-		return new VanillaMobType(id, name, EntityType.valueOf(entityTypeString));
+		final String materialString = section.getString("material");
+		try {
+			return new VanillaMobType(id, name, Material.valueOf(materialString), EntityType.valueOf(entityTypeString));
+		} catch (IllegalArgumentException | NullPointerException e) {
+			Slayer.inst.getLogger().warning(
+					"Invalid material for VANILLA mob-type, defaulting to skeleton skull (id: " + key + ")");
+			return new VanillaMobType(id, name, Material.SKELETON_SKULL, EntityType.valueOf(entityTypeString));
+		}
 	}
 }

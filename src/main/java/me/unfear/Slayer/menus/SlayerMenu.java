@@ -45,6 +45,13 @@ public class SlayerMenu {
 				Arrays.asList(ChatColor.GRAY + "Spend your hard-earned " + ChatColor.DARK_PURPLE + "Slayer Points"));
 		shop.setItemMeta(shopMeta);
 
+		// monsters
+		final ItemStack monsters = new ItemStack(Material.ZOMBIE_HEAD);
+		final ItemMeta monstersMeta = monsters.getItemMeta();
+		monstersMeta.setDisplayName(ChatColor.RED + "Monsters Slain");
+		monstersMeta.setLore(Arrays.asList(ChatColor.GRAY + "Earn rewards for reaching milestones!"));
+		monsters.setItemMeta(monstersMeta);
+
 		// current slayer task
 		final ItemStack current = new ItemStack(Material.ROTTEN_FLESH);
 		final ItemMeta currentMeta = current.getItemMeta();
@@ -55,8 +62,9 @@ public class SlayerMenu {
 			for (String line : data.getCurrentTask().getDescription())
 				lore.add(ChatColor.translateAlternateColorCodes('&', "&f" + line));
 			lore.add("");
-			lore.add(ChatColor.translateAlternateColorCodes('&', "&7Progress: &f" + data.getKills() + " &8/ &f"
-					+ data.getCurrentTask().getKills() + " &7" + data.getCurrentTask().getMobType().getName() + " slain"));
+			lore.add(ChatColor.translateAlternateColorCodes('&',
+					"&7Progress: &f" + data.getKills() + " &8/ &f" + data.getCurrentTask().getKills() + " &7"
+							+ data.getCurrentTask().getMobType().getName() + " slain"));
 			currentMeta.setLore(lore);
 		}
 		currentMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -90,6 +98,9 @@ public class SlayerMenu {
 		main.addItem(new GuiItem(shop, event -> {
 			SlayerShopMenu.create(data, 0).show(event.getWhoClicked());
 		}), 4, 1);
+		main.addItem(new GuiItem(monsters, event -> {
+			SlayerMonstersMenu.create(data, 0).show(event.getWhoClicked());
+		}), 1, 2);
 		main.addItem(new GuiItem(receiveTask, event -> {
 			event.getWhoClicked().closeInventory();
 			if (data.getCurrentTask() != null) {
@@ -97,10 +108,8 @@ public class SlayerMenu {
 				return;
 			}
 			data.receiveTask();
-			event.getWhoClicked()
-					.sendMessage(ChatColor.translateAlternateColorCodes('&',
-							"&c&lSLAYER TASK &7Slay &f" + data.getCurrentTask().getKills() + " &7"
-									+ data.getCurrentTask().getMobType().getName()));
+			event.getWhoClicked().sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lSLAYER TASK &7Slay &f"
+					+ data.getCurrentTask().getKills() + " &7" + data.getCurrentTask().getMobType().getName()));
 		}), 7, 1);
 		if (data.getCurrentTask() != null)
 			main.addItem(new GuiItem(current), 1, 1);

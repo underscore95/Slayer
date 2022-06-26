@@ -62,15 +62,17 @@ public class SlayerLoader {
 			try {
 				Integer.parseInt(mobTypeString);
 			} catch (NumberFormatException e) {
-				Slayer.inst.getLogger().severe("Failed to load a slayer task, mob type id isn't an integer (id=" + id + ", mob type id: " + mobTypeString + ")");
+				Slayer.inst.getLogger().severe("Failed to load a slayer task, mob type id isn't an integer (id=" + id
+						+ ", mob type id: " + mobTypeString + ")");
 				Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
 				return;
 			}
-			
+
 			final MobType mobType = Slayer.inst.getMobTypeLoader().getMobType(Integer.parseInt(mobTypeString));
 
 			if (mobType == null) {
-				Slayer.inst.getLogger().severe("Failed to load a slayer task, mob type not a mob (id=" + id + ", mob type id: " + mobTypeString + ")");
+				Slayer.inst.getLogger().severe("Failed to load a slayer task, mob type not a mob (id=" + id
+						+ ", mob type id: " + mobTypeString + ")");
 				Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
 				return;
 			}
@@ -104,7 +106,7 @@ public class SlayerLoader {
 					Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
 					return;
 				}
-				
+
 				key += ".";
 				String name = shopSection.getString(key + "name");
 				ArrayList<String> description = (ArrayList<String>) shopSection.getStringList(key + "description");
@@ -113,38 +115,42 @@ public class SlayerLoader {
 				String materialString = shopSection.getString(key + "material");
 				Integer itemAmount = shopSection.getInt(key + "itemAmount");
 				Integer purchases = shopSection.getInt(key + "purchases");
-				
-				if (name == null || description == null || cost == null || commands == null || materialString == null || itemAmount == null || purchases == null) {
+
+				if (name == null || description == null || cost == null || commands == null || materialString == null
+						|| itemAmount == null || purchases == null) {
 					Slayer.inst.getLogger().severe("Failed to load a shop item, missing value (id=" + key + ")");
 					Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
 					return;
 				}
-				
+
 				Material material = Material.valueOf(materialString);
 				if (material == null) {
-					Slayer.inst.getLogger().severe("Failed to load a shop item, material is an invalid item (id=" + key + ")");
+					Slayer.inst.getLogger()
+							.severe("Failed to load a shop item, material is an invalid item (id=" + key + ")");
 					Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
 					return;
 				}
-				
+
 				if (itemAmount < 1 || itemAmount > 64) {
-					Slayer.inst.getLogger().severe("Failed to load a shop item, item amount must be between 1 and 64 (id=" + key + ")");
+					Slayer.inst.getLogger().severe(
+							"Failed to load a shop item, item amount must be between 1 and 64 (id=" + key + ")");
 					Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
 					return;
 				}
-				
+
 				if (purchases != -1 && purchases < 1) {
-					Slayer.inst.getLogger().severe("Failed to load a shop item, purchases must be >0 or -1 (id=" + key + ")");
+					Slayer.inst.getLogger()
+							.severe("Failed to load a shop item, purchases must be >0 or -1 (id=" + key + ")");
 					Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
 					return;
 				}
-				
+
 				if (cost < 0) {
 					Slayer.inst.getLogger().severe("Failed to load a shop item, cost must be >= 0 (id=" + key + ")");
 					Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
 					return;
 				}
-				
+
 				shopItems.add(new ShopItem(id, name, description, cost, commands, material, itemAmount, purchases));
 			}
 		}
@@ -187,6 +193,7 @@ public class SlayerLoader {
 				return create(uuid);
 			}
 
+			// shop items
 			final HashMap<Integer, Integer> shopItemsPurchased = new HashMap<>();
 			if (dataConfig.isSet("shop-items-purchased")) {
 				for (String key : dataConfig.getConfigurationSection("shop-items-purchased").getKeys(false)) {
@@ -204,8 +211,27 @@ public class SlayerLoader {
 				}
 			}
 
+			// entity kills
+			final HashMap<Integer, Integer> entityKills = new HashMap<>();
+			if (dataConfig.isSet("entity-kills")) {
+				for (String key : dataConfig.getConfigurationSection("entity-kills").getKeys(false)) {
+					try {
+						int id = Integer.parseInt(key);
+						int amount = dataConfig.getInt("entity-kills." + key);
+						if (!dataConfig.isSet("entity-kills." + key))
+							amount = 0;
+						entityKills.put(id, amount);
+					} catch (NumberFormatException e) {
+						Slayer.inst.getLogger().severe("Failed to load player data, mob type id is not a number (uuid="
+								+ uuid + ", id=" + key + ")");
+						return create(uuid);
+					}
+				}
+			}
+
 			// loaded
-			final PlayerData data = new PlayerData(uuid, kills, slayerTask, points, tasksCompleted, shopItemsPurchased);
+			final PlayerData data = new PlayerData(uuid, kills, slayerTask, points, tasksCompleted, shopItemsPurchased,
+					entityKills);
 			this.playerData.add(data);
 			return data;
 		}
@@ -238,10 +264,11 @@ public class SlayerLoader {
 			data.save();
 		}
 	}
-	
+
 	public ShopItem getShopItem(int id) {
 		for (ShopItem shopItem : this.shopItems) {
-			if (shopItem.getId() == id) return shopItem;
+			if (shopItem.getId() == id)
+				return shopItem;
 		}
 		return null;
 	}

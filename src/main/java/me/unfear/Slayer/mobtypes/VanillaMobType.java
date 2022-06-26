@@ -1,13 +1,14 @@
 package me.unfear.Slayer.mobtypes;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 public class VanillaMobType extends MobType {
 
 	private EntityType entityType;
-	public VanillaMobType(int id, String name, EntityType entityType) {
-		super(id, name);
+	public VanillaMobType(int id, String name, Material material, EntityType entityType) {
+		super(id, name, material);
 		this.entityType = entityType;
 	}
 	

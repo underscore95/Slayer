@@ -11,6 +11,7 @@ import de.tr7zw.changeme.nbtapi.NBTEntity;
 import me.unfear.Slayer.PlayerData;
 import me.unfear.Slayer.Slayer;
 import me.unfear.Slayer.SlayerLoader;
+import me.unfear.Slayer.mobtypes.MobType;
 
 public class EntityDeathListener implements Listener {
 
@@ -28,6 +29,13 @@ public class EntityDeathListener implements Listener {
 		if (fromSpawner && !loader.isAllowSpawners()) return;
 		
 		final PlayerData data = loader.getPlayerData(player.getUniqueId());
+		
+		for (MobType mobType : Slayer.inst.getMobTypeLoader().getMobTypes()) {
+			if (!mobType.isThis(entity)) continue;
+			data.incrementEntityKills(mobType.getId());
+			break;
+		}
+		
 		if (data.getCurrentTask() == null || !data.getCurrentTask().getMobType().isThis(entity)) return;
 		data.setKills(data.getKills() + 1);
 	}
