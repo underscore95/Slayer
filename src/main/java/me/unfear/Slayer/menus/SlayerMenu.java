@@ -49,7 +49,7 @@ public class SlayerMenu {
 		final ItemStack monsters = new ItemStack(Material.ZOMBIE_HEAD);
 		final ItemMeta monstersMeta = monsters.getItemMeta();
 		monstersMeta.setDisplayName(ChatColor.RED + "Monsters Slain");
-		monstersMeta.setLore(Arrays.asList(ChatColor.GRAY + "Earn rewards for reaching milestones!"));
+		monstersMeta.setLore(Arrays.asList(ChatColor.GRAY + "How many monsters have you ended?"));
 		monsters.setItemMeta(monstersMeta);
 
 		// current slayer task
