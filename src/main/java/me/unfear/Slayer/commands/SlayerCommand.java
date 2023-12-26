@@ -11,10 +11,11 @@ import me.unfear.Slayer.PlayerData;
 import me.unfear.Slayer.Slayer;
 import me.unfear.Slayer.menus.SlayerMenu;
 import me.unfear.Slayer.menus.SlayerRewardMenu;
+import org.jetbrains.annotations.NotNull;
 
 public class SlayerCommand implements CommandExecutor {
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
 		
 		Player target = null;
 		if (sender instanceof Player) target = (Player) sender;

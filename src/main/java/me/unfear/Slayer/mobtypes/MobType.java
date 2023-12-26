@@ -5,9 +5,9 @@ import org.bukkit.entity.Entity;
 
 public abstract class MobType {
 	
-	private int id;
-	private String name;
-	private Material material;
+	private final int id;
+	private final String name;
+	private final Material material;
 	public MobType(int id, String name, Material material) {
 		this.id = id;
 		this.name = name;

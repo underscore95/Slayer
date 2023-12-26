@@ -9,7 +9,7 @@ import me.unfear.Slayer.mobtypes.MobType;
 
 public class MythicMobType extends MobType {
 
-	private String mythicMobName;
+	private final String mythicMobName;
 	public MythicMobType(int id, String name, Material material, String mythicMobName) {
 		super(id, name, material);
 		this.mythicMobName = mythicMobName;
@@ -17,6 +17,7 @@ public class MythicMobType extends MobType {
 
 	@Override
 	public boolean isThis(Entity entity) {
+		if (MythicMobsLoader.mythicMobs == null) return false;
 		final MobExecutor mobManager = MythicMobsLoader.mythicMobs.getMobManager();
 		final ActiveMob mob = mobManager.getMythicMobInstance(entity);
 		return mob != null && mob.getType().getInternalName().equalsIgnoreCase(mythicMobName);

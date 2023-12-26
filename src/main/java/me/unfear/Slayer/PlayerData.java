@@ -1,5 +1,12 @@
 package me.unfear.Slayer;
 
+import me.unfear.Slayer.mobtypes.MobType;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,170 +15,163 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-
-import me.unfear.Slayer.mobtypes.MobType;
-
 public class PlayerData {
 
-	public static final Random RANDOM = new Random();
+    public static final Random RANDOM = new Random();
 
-	private UUID player;
-	private int kills;
-	private SlayerTask currentTask;
-	private int points;
-	private int tasksCompleted;
-	private boolean hasSentMessage = false; // this isn't saved intentionally, incase player forgets about the task
-	private HashMap<Integer, Integer> shopItemsPurchased; // shop item id, purchases
-	private HashMap<Integer, Integer> entityKills;
+    private final UUID player;
+    private int kills;
+    private SlayerTask currentTask;
+    private int points;
+    private int tasksCompleted;
+    private boolean hasSentMessage = false; // this isn't saved intentionally, incase player forgets about the task
+    private final HashMap<Integer, Integer> shopItemsPurchased; // shop item id, purchases
+    private final HashMap<Integer, Integer> entityKills;
 
-	public PlayerData(UUID player, int kills, SlayerTask currentTask, int points, int tasksCompleted, HashMap<Integer, Integer> shopItemsPurchased, HashMap<Integer, Integer> entityKills) {
-		super();
-		this.player = player;
-		this.kills = kills;
-		this.currentTask = currentTask;
-		this.points = points;
-		this.tasksCompleted = tasksCompleted;
-		this.shopItemsPurchased = shopItemsPurchased;
-		this.entityKills = entityKills;
-		for (MobType type : Slayer.inst.getMobTypeLoader().getMobTypes()) {
-			this.entityKills.putIfAbsent(type.getId(), 0);
-		}
-	}
+    public PlayerData(UUID player, int kills, SlayerTask currentTask, int points, int tasksCompleted, HashMap<Integer, Integer> shopItemsPurchased, HashMap<Integer, Integer> entityKills) {
+        super();
+        this.player = player;
+        this.kills = kills;
+        this.currentTask = currentTask;
+        this.points = points;
+        this.tasksCompleted = tasksCompleted;
+        this.shopItemsPurchased = shopItemsPurchased;
+        this.entityKills = entityKills;
+        for (MobType type : Slayer.inst.getMobTypeLoader().getMobTypes()) {
+            this.entityKills.putIfAbsent(type.getId(), 0);
+        }
+    }
 
-	public PlayerData(UUID player) {
-		this(player, 0, null, 0, 0, new HashMap<>(), new HashMap<>());
-	}
-	
-	public HashMap<Integer, Integer> getEntityKills() {
-		return this.entityKills;
-	}
-	
-	public void incrementEntityKills(int id) {
-		this.entityKills.putIfAbsent(id, 0);
-		this.entityKills.put(id, this.entityKills.get(id) + 1);
-	}
-	
-	public HashMap<Integer, Integer> getShopItemsPurchased() {
-		return this.shopItemsPurchased;
-	}
+    public PlayerData(UUID player) {
+        this(player, 0, null, 0, 0, new HashMap<>(), new HashMap<>());
+    }
 
-	public int getKills() {
-		return kills;
-	}
+    public HashMap<Integer, Integer> getEntityKills() {
+        return this.entityKills;
+    }
 
-	public void setKills(int kills) {
-		this.kills = kills;
+    public void incrementEntityKills(int id) {
+        this.entityKills.putIfAbsent(id, 0);
+        this.entityKills.put(id, this.entityKills.get(id) + 1);
+    }
 
-		if (this.getCurrentTask() == null || this.kills < this.getCurrentTask().getKills() || hasSentMessage)
-			return;
+    public HashMap<Integer, Integer> getShopItemsPurchased() {
+        return this.shopItemsPurchased;
+    }
 
-		Player p = Bukkit.getPlayer(player);
-		p.sendMessage(
-				ChatColor.translateAlternateColorCodes('&', "&6&lSLAYER COMPLETE! &7Please collect your rewards."));
-		this.hasSentMessage = true;
-	}
+    public int getKills() {
+        return kills;
+    }
 
-	public SlayerTask getCurrentTask() {
-		return currentTask;
-	}
-	
-	public boolean completedCurrentTask() {
-		return this.getCurrentTask() != null && this.getCurrentTask().getKills() <= this.kills;
-	}
+    public void setKills(int kills) {
+        this.kills = kills;
 
-	public void setCurrentTask(SlayerTask currentTask) {
-		this.currentTask = currentTask;
-		this.setKills(0);
-		this.hasSentMessage = false;
-	}
+        if (this.getCurrentTask() == null || this.kills < this.getCurrentTask().getKills() || hasSentMessage)
+            return;
 
-	public int getPoints() {
-		return points;
-	}
+        Player p = Bukkit.getPlayer(player);
+        if (p == null) return;
+        p.sendMessage(
+                ChatColor.translateAlternateColorCodes('&', "&6&lSLAYER COMPLETE! &7Please collect your rewards."));
+        this.hasSentMessage = true;
+    }
 
-	public void setPoints(int points) {
-		this.points = points;
-	}
+    public SlayerTask getCurrentTask() {
+        return currentTask;
+    }
 
-	public int getTasksCompleted() {
-		return tasksCompleted;
-	}
+    public boolean completedCurrentTask() {
+        return this.getCurrentTask() != null && this.getCurrentTask().getKills() <= this.kills;
+    }
 
-	public void setTasksCompleted(int tasksCompleted) {
-		this.tasksCompleted = tasksCompleted;
-	}
+    public void setCurrentTask(SlayerTask currentTask) {
+        this.currentTask = currentTask;
+        this.setKills(0);
+        this.hasSentMessage = false;
+    }
 
-	public UUID getPlayer() {
-		return player;
-	}
+    public int getPoints() {
+        return points;
+    }
 
-	private Integer getCurrentTaskId() {
-		SlayerTask task = getCurrentTask();
-		if (task == null)
-			return null;
-		return task.getId();
-	}
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
-	public int getReward() {
-		if (currentTask == null)
-			return 0;
-		return currentTask.getReward();
-	}
+    public int getTasksCompleted() {
+        return tasksCompleted;
+    }
 
-	public void save() {
+    public void setTasksCompleted(int tasksCompleted) {
+        this.tasksCompleted = tasksCompleted;
+    }
 
-		if (Bukkit.getPlayer(player) == null)
-			this.hasSentMessage = false;
+    public UUID getPlayer() {
+        return player;
+    }
 
-		final File file = new File(Slayer.inst.getDataFolder(), "data" + File.separator + player + ".yml");
+    private Integer getCurrentTaskId() {
+        SlayerTask task = getCurrentTask();
+        if (task == null)
+            return null;
+        return task.getId();
+    }
 
-		// clear old data
-		if (file.exists()) {
-			file.delete();
-		}
+    public int getReward() {
+        if (currentTask == null)
+            return 0;
+        return currentTask.getReward();
+    }
 
-		file.getParentFile().mkdirs();
-		try {
-			file.createNewFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    public void save() {
 
-		final FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        if (Bukkit.getPlayer(player) == null)
+            this.hasSentMessage = false;
 
-		config.set("kills", kills);
-		config.set("current-task", getCurrentTaskId());
-		config.set("points", points);
-		config.set("tasks-completed", tasksCompleted);
-		
-		for (Entry<Integer, Integer> entry : shopItemsPurchased.entrySet()) {
-			config.set("shop-items-purchased." + entry.getKey(), entry.getValue());
-		}
-		
-		for (Entry<Integer, Integer> entry : entityKills.entrySet()) {
-			config.set("entity-kills." + entry.getKey(), entry.getValue());
-		}
+        final File file = new File(Slayer.inst.getDataFolder(), "data" + File.separator + player + ".yml");
 
-		try {
-			config.save(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+        // clear old data
+        if (file.exists()) {
+            file.delete();
+        }
 
-	public void receiveTask() {
-		this.kills = 0;
+        file.getParentFile().mkdirs();
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		ArrayList<SlayerTask> tasks = Slayer.inst.getSlayerLoader().getSlayerTasks();
-		int i = -1;
-		while (i == -1 || (tasks.get(i) == this.currentTask && tasks.size() > 1)) {
-			i = RANDOM.nextInt(tasks.size()); // so the player doesn't get the same task 2x in a row
-		}
-		this.setCurrentTask(tasks.get(i));
-	}
+        final FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        config.set("kills", kills);
+        config.set("current-task", getCurrentTaskId());
+        config.set("points", points);
+        config.set("tasks-completed", tasksCompleted);
+
+        for (Entry<Integer, Integer> entry : shopItemsPurchased.entrySet()) {
+            config.set("shop-items-purchased." + entry.getKey(), entry.getValue());
+        }
+
+        for (Entry<Integer, Integer> entry : entityKills.entrySet()) {
+            config.set("entity-kills." + entry.getKey(), entry.getValue());
+        }
+
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void receiveTask() {
+        this.kills = 0;
+
+        ArrayList<SlayerTask> tasks = Slayer.inst.getSlayerLoader().getSlayerTasks();
+        int i = -1;
+        while (i == -1 || (tasks.get(i) == this.currentTask && tasks.size() > 1)) {
+            i = RANDOM.nextInt(tasks.size()); // so the player doesn't get the same task 2x in a row
+        }
+        this.setCurrentTask(tasks.get(i));
+    }
 }

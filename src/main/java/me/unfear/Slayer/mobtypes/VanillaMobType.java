@@ -6,7 +6,7 @@ import org.bukkit.entity.EntityType;
 
 public class VanillaMobType extends MobType {
 
-	private EntityType entityType;
+	private final EntityType entityType;
 	public VanillaMobType(int id, String name, Material material, EntityType entityType) {
 		super(id, name, material);
 		this.entityType = entityType;

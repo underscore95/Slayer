@@ -141,7 +141,7 @@ shop:
        - "&8At level 0, 30 levels will be gained"
       cost: 10
       commands:
-       - "xp add %player% 1395"
+       - "minecraft:xp add %player% 1395"
       material: LIME_WOOL
       itemAmount: 1
       purchases: -1
