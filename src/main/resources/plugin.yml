@@ -1,12 +1,16 @@
-main: me.unfear.Slayer.Slayer
+main: me.unfear.Slayer.Main
 name: Slayer
 author: unfear
 api-version: 1.13
 description: Receive slayer tasks from the Slayer Master
-version: 0.1.0
+version: 0.2.0
 softdepend: [MythicMobs]
 commands:
    slayer:
       description: Open the slayer menu
       permission: slayer.open
       aliases: [slayermaster, slayermenu, slayertask]
+   canceltask:
+      description: Cancel a players task!
+      permission: slayer.canceltask
+      aliases: [cancelslayertask, slayercancel]

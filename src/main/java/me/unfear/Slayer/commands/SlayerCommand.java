@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.unfear.Slayer.PlayerData;
-import me.unfear.Slayer.Slayer;
+import me.unfear.Slayer.Main;
 import me.unfear.Slayer.menus.SlayerMenu;
 import me.unfear.Slayer.menus.SlayerRewardMenu;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +40,7 @@ public class SlayerCommand implements CommandExecutor {
 		
 		if (!target.getName().equals(sender.getName()) && args.length > 1 && args[1].equalsIgnoreCase("-s")) sender.sendMessage(ChatColor.GRAY + "Opened the Slayer menu for " + ChatColor.YELLOW + target.getName());
 		
-		final PlayerData data = Slayer.inst.getSlayerLoader().getPlayerData(target.getUniqueId());
+		final PlayerData data = Main.inst.getSlayerLoader().getPlayerData(target.getUniqueId());
 		if (data.completedCurrentTask()) {
 			SlayerRewardMenu.create(data).show(target);
 		} else {

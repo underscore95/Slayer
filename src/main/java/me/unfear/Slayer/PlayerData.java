@@ -37,7 +37,7 @@ public class PlayerData {
         this.tasksCompleted = tasksCompleted;
         this.shopItemsPurchased = shopItemsPurchased;
         this.entityKills = entityKills;
-        for (MobType type : Slayer.inst.getMobTypeLoader().getMobTypes()) {
+        for (MobType type : Main.inst.getMobTypeLoader().getMobTypes()) {
             this.entityKills.putIfAbsent(type.getId(), 0);
         }
     }
@@ -128,7 +128,7 @@ public class PlayerData {
         if (Bukkit.getPlayer(player) == null)
             this.hasSentMessage = false;
 
-        final File file = new File(Slayer.inst.getDataFolder(), "data" + File.separator + player + ".yml");
+        final File file = new File(Main.inst.getDataFolder(), "data" + File.separator + player + ".yml");
 
         // clear old data
         if (file.exists()) {
@@ -167,7 +167,7 @@ public class PlayerData {
     public void receiveTask() {
         this.kills = 0;
 
-        ArrayList<SlayerTask> tasks = Slayer.inst.getSlayerLoader().getSlayerTasks();
+        ArrayList<SlayerTask> tasks = Main.inst.getSlayerLoader().getSlayerTasks();
         int i = -1;
         while (i == -1 || (tasks.get(i) == this.currentTask && tasks.size() > 1)) {
             i = RANDOM.nextInt(tasks.size()); // so the player doesn't get the same task 2x in a row

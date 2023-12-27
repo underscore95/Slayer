@@ -2,27 +2,27 @@ package me.unfear.Slayer.mobtypes.mythic;
 
 import io.lumine.mythic.api.mobs.MythicMob;
 import io.lumine.mythic.bukkit.MythicBukkit;
-import me.unfear.Slayer.Slayer;
+import me.unfear.Slayer.Main;
 import me.unfear.Slayer.mobtypes.MobType;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class MythicMobsLoader {
 
-    public static final MythicBukkit mythicMobs = (MythicBukkit) Slayer.inst.getServer().getPluginManager()
+    public static final MythicBukkit mythicMobs = (MythicBukkit) Main.inst.getServer().getPluginManager()
             .getPlugin("MythicMobs");
 
     public static MobType load(ConfigurationSection section, String key) {
         if (mythicMobs == null || !mythicMobs.isEnabled()) {
-            Slayer.inst.getLogger().severe("Failed to hook into MythicMobs");
+            Main.inst.getLogger().severe("Failed to hook into MythicMobs");
             return null;
         }
 
         try {
             Integer.parseInt(key);
         } catch (NumberFormatException e) {
-            Slayer.inst.getLogger().severe("Unable to load mob-type, id isn't an integer (id: " + key + ")");
-            Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+            Main.inst.getLogger().severe("Unable to load mob-type, id isn't an integer (id: " + key + ")");
+            Main.inst.getPluginLoader().disablePlugin(Main.inst);
             return null;
         }
 
@@ -32,8 +32,8 @@ public class MythicMobsLoader {
         final String mythicMob = section.getString("mythicmob");
 
         if (name == null || mythicMob == null) {
-            Slayer.inst.getLogger().severe("Unable to load MYTHIC_MOBS mob-type, missing value (id: " + key + ")");
-            Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+            Main.inst.getLogger().severe("Unable to load MYTHIC_MOBS mob-type, missing value (id: " + key + ")");
+            Main.inst.getPluginLoader().disablePlugin(Main.inst);
             return null;
         }
 
@@ -46,9 +46,9 @@ public class MythicMobsLoader {
         }
 
         if (!validMob) {
-            Slayer.inst.getLogger()
+            Main.inst.getLogger()
                     .severe("Unable to load MYTHIC_MOBS mob-type, mythicmob does not exist (id: " + key + ")");
-            Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+            Main.inst.getPluginLoader().disablePlugin(Main.inst);
             return null;
         }
 
@@ -59,7 +59,7 @@ public class MythicMobsLoader {
                 material = Material.valueOf(materialString);
             }
         } catch (IllegalArgumentException e) {
-            Slayer.inst.getLogger().warning(
+            Main.inst.getLogger().warning(
                     "Invalid material for MYTHIC_MOBS mob-type, defaulting to skeleton skull (id: " + key + ")");
         }
 

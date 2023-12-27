@@ -9,7 +9,7 @@ import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.unfear.Slayer.PlayerData;
 import me.unfear.Slayer.ShopItem;
-import me.unfear.Slayer.Slayer;
+import me.unfear.Slayer.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,7 +23,7 @@ public class SlayerShopMenu {
 
     private static ArrayList<ItemStack> getShopItems(PlayerData data) {
         ArrayList<ItemStack> items = new ArrayList<>();
-        for (ShopItem shopItem : Slayer.inst.getSlayerLoader().getShopItems()) {
+        for (ShopItem shopItem : Main.inst.getSlayerLoader().getShopItems()) {
             if (!data.getShopItemsPurchased().containsKey(shopItem.getId()))
                 data.getShopItemsPurchased().put(shopItem.getId(), 0);
 
@@ -100,7 +100,7 @@ public class SlayerShopMenu {
             if (!nbt.hasTag(ShopItem.NBT_TAG))
                 return;
             int id = nbt.getInteger(ShopItem.NBT_TAG);
-            ShopItem shopItem = Slayer.inst.getSlayerLoader().getShopItem(id);
+            ShopItem shopItem = Main.inst.getSlayerLoader().getShopItem(id);
             if (shopItem == null)
                 return;
             // can player buy more of this item? shouldn't be shown, but just in case

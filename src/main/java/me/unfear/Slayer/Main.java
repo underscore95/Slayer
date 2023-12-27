@@ -1,5 +1,6 @@
 package me.unfear.Slayer;
 
+import me.unfear.Slayer.commands.CancelTaskCommand;
 import me.unfear.Slayer.commands.SlayerCommand;
 import me.unfear.Slayer.listeners.EntityDeathListener;
 import me.unfear.Slayer.listeners.SpawnerSpawnListener;
@@ -10,9 +11,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 
-public class Slayer extends JavaPlugin {
+public class Main extends JavaPlugin {
 
-    public static Slayer inst;
+    public static Main inst;
 
     private MobTypeLoader mobTypeLoader;
     private SlayerLoader slayerLoader;
@@ -30,6 +31,7 @@ public class Slayer extends JavaPlugin {
         pm.registerEvents(new SpawnerSpawnListener(), this);
 
         Objects.requireNonNull(getCommand("slayer")).setExecutor(new SlayerCommand());
+        Objects.requireNonNull(getCommand("canceltask")).setExecutor(new CancelTaskCommand());
 
         new BukkitRunnable() {
             public void run() {

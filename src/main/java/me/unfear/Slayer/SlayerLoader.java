@@ -23,7 +23,7 @@ public class SlayerLoader {
 	public SlayerLoader() {
 		this.slayerTasks = new ArrayList<>();
 
-		final FileConfiguration config = Slayer.inst.getConfig();
+		final FileConfiguration config = Main.inst.getConfig();
 
 		allowSpawners = config.getBoolean("allow-spawners");
 		saveTimer = config.getInt("save-timer");
@@ -31,8 +31,8 @@ public class SlayerLoader {
 		// load the tasks
 		final ConfigurationSection tasksConfig = config.getConfigurationSection("tasks");
 		if (tasksConfig == null) {
-			Slayer.inst.getLogger().severe("Failed to load slayer tasks.");
-			Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+			Main.inst.getLogger().severe("Failed to load slayer tasks.");
+			Main.inst.getPluginLoader().disablePlugin(Main.inst);
 			return;
 		}
 
@@ -42,8 +42,8 @@ public class SlayerLoader {
 			try {
 				id = Integer.parseInt(idString);
 			} catch (NumberFormatException e) {
-				Slayer.inst.getLogger().severe("Failed to load a slayer task, id isn't a number (id=" + idString + ")");
-				Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+				Main.inst.getLogger().severe("Failed to load a slayer task, id isn't a number (id=" + idString + ")");
+				Main.inst.getPluginLoader().disablePlugin(Main.inst);
 				return;
 			}
 
@@ -54,39 +54,39 @@ public class SlayerLoader {
 			final Integer reward = tasksConfig.getInt(id + ".reward");
 
 			if (mobTypeString == null || kills == null || name == null || description == null || reward == null) {
-				Slayer.inst.getLogger().severe("Failed to load a slayer task, missing value (id=" + id + ")");
-				Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+				Main.inst.getLogger().severe("Failed to load a slayer task, missing value (id=" + id + ")");
+				Main.inst.getPluginLoader().disablePlugin(Main.inst);
 				return;
 			}
 
 			try {
 				Integer.parseInt(mobTypeString);
 			} catch (NumberFormatException e) {
-				Slayer.inst.getLogger().severe("Failed to load a slayer task, mob type isn't an integer (id=" + id
+				Main.inst.getLogger().severe("Failed to load a slayer task, mob type isn't an integer (id=" + id
 						+ ", mob type: " + mobTypeString + ")");
-				Slayer.inst.getLogger().severe("Just updated to v0.1.0? Take a look at this: https://github.com/unfear-underscore/Slayer/wiki/Updating-to-0.1.0");
-				Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+				Main.inst.getLogger().severe("Just updated to v0.1.0? Take a look at this: https://github.com/unfear-underscore/Slayer/wiki/Updating-to-0.1.0");
+				Main.inst.getPluginLoader().disablePlugin(Main.inst);
 				return;
 			}
 
-			final MobType mobType = Slayer.inst.getMobTypeLoader().getMobType(Integer.parseInt(mobTypeString));
+			final MobType mobType = Main.inst.getMobTypeLoader().getMobType(Integer.parseInt(mobTypeString));
 
 			if (mobType == null) {
-				Slayer.inst.getLogger().severe("Failed to load a slayer task, mob type not a mob (id=" + id
+				Main.inst.getLogger().severe("Failed to load a slayer task, mob type not a mob (id=" + id
 						+ ", mob type id: " + mobTypeString + ")");
-				Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+				Main.inst.getPluginLoader().disablePlugin(Main.inst);
 				return;
 			}
 
 			if (kills < 1) {
-				Slayer.inst.getLogger().severe("Failed to load a slayer task, kills required < 1 (id=" + id + ")");
-				Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+				Main.inst.getLogger().severe("Failed to load a slayer task, kills required < 1 (id=" + id + ")");
+				Main.inst.getPluginLoader().disablePlugin(Main.inst);
 				return;
 			}
 
 			if (reward < 0) {
-				Slayer.inst.getLogger().severe("Failed to load a slayer task, reward < 0 (id=" + id + ")");
-				Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+				Main.inst.getLogger().severe("Failed to load a slayer task, reward < 0 (id=" + id + ")");
+				Main.inst.getPluginLoader().disablePlugin(Main.inst);
 				return;
 			}
 
@@ -103,8 +103,8 @@ public class SlayerLoader {
 				try {
 					id = Integer.parseInt(key);
 				} catch (NumberFormatException e) {
-					Slayer.inst.getLogger().severe("Failed to load a shop item, id isn't a number (id=" + key + ")");
-					Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+					Main.inst.getLogger().severe("Failed to load a shop item, id isn't a number (id=" + key + ")");
+					Main.inst.getPluginLoader().disablePlugin(Main.inst);
 					return;
 				}
 
@@ -119,36 +119,36 @@ public class SlayerLoader {
 
 				if (name == null || description == null || cost == null || commands == null || materialString == null
 						|| itemAmount == null || purchases == null) {
-					Slayer.inst.getLogger().severe("Failed to load a shop item, missing value (id=" + key + ")");
-					Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+					Main.inst.getLogger().severe("Failed to load a shop item, missing value (id=" + key + ")");
+					Main.inst.getPluginLoader().disablePlugin(Main.inst);
 					return;
 				}
 
 				Material material = Material.valueOf(materialString);
 				if (material == null) {
-					Slayer.inst.getLogger()
+					Main.inst.getLogger()
 							.severe("Failed to load a shop item, material is an invalid item (id=" + key + ")");
-					Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+					Main.inst.getPluginLoader().disablePlugin(Main.inst);
 					return;
 				}
 
 				if (itemAmount < 1 || itemAmount > 64) {
-					Slayer.inst.getLogger().severe(
+					Main.inst.getLogger().severe(
 							"Failed to load a shop item, item amount must be between 1 and 64 (id=" + key + ")");
-					Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+					Main.inst.getPluginLoader().disablePlugin(Main.inst);
 					return;
 				}
 
 				if (purchases != -1 && purchases < 1) {
-					Slayer.inst.getLogger()
+					Main.inst.getLogger()
 							.severe("Failed to load a shop item, purchases must be >0 or -1 (id=" + key + ")");
-					Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+					Main.inst.getPluginLoader().disablePlugin(Main.inst);
 					return;
 				}
 
 				if (cost < 0) {
-					Slayer.inst.getLogger().severe("Failed to load a shop item, cost must be >= 0 (id=" + key + ")");
-					Slayer.inst.getPluginLoader().disablePlugin(Slayer.inst);
+					Main.inst.getLogger().severe("Failed to load a shop item, cost must be >= 0 (id=" + key + ")");
+					Main.inst.getPluginLoader().disablePlugin(Main.inst);
 					return;
 				}
 
@@ -157,7 +157,7 @@ public class SlayerLoader {
 		}
 
 		if (shopSection == null || shopItems.size() == 0)
-			Slayer.inst.getLogger()
+			Main.inst.getLogger()
 					.warning("No shop items found in config.yml, players will be unable to spend slayer points.");
 
 	}
@@ -178,7 +178,7 @@ public class SlayerLoader {
 		}
 
 		// is it on disk?
-		final File file = new File(Slayer.inst.getDataFolder(), "data" + File.separator + uuid + ".yml");
+		final File file = new File(Main.inst.getDataFolder(), "data" + File.separator + uuid + ".yml");
 		if (file.exists()) {
 			final FileConfiguration dataConfig = YamlConfiguration.loadConfiguration(file);
 
@@ -190,7 +190,7 @@ public class SlayerLoader {
 			Integer tasksCompleted = dataConfig.getInt("tasks-completed");
 
 			if (kills == null || points == null || tasksCompleted == null) {
-				Slayer.inst.getLogger().severe("Failed to load player data, missing value (uuid=" + uuid + ")");
+				Main.inst.getLogger().severe("Failed to load player data, missing value (uuid=" + uuid + ")");
 				return create(uuid);
 			}
 
@@ -205,7 +205,7 @@ public class SlayerLoader {
 							amount = 0;
 						shopItemsPurchased.put(id, amount);
 					} catch (NumberFormatException e) {
-						Slayer.inst.getLogger().severe("Failed to load player data, shop id is not a number (uuid="
+						Main.inst.getLogger().severe("Failed to load player data, shop id is not a number (uuid="
 								+ uuid + ", id=" + key + ")");
 						return create(uuid);
 					}
@@ -223,7 +223,7 @@ public class SlayerLoader {
 							amount = 0;
 						entityKills.put(id, amount);
 					} catch (NumberFormatException e) {
-						Slayer.inst.getLogger().severe("Failed to load player data, mob type id is not a number (uuid="
+						Main.inst.getLogger().severe("Failed to load player data, mob type id is not a number (uuid="
 								+ uuid + ", id=" + key + ")");
 						return create(uuid);
 					}

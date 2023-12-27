@@ -7,7 +7,7 @@ import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import me.unfear.Slayer.PlayerData;
-import me.unfear.Slayer.Slayer;
+import me.unfear.Slayer.Main;
 import me.unfear.Slayer.mobtypes.MobType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,7 +24,7 @@ public class SlayerMonstersMenu {
     private static ArrayList<ItemStack> getMonsterItems(PlayerData data) {
         ArrayList<ItemStack> items = new ArrayList<>();
         for (Entry<Integer, Integer> entry : data.getEntityKills().entrySet()) {
-            final MobType mobType = Slayer.inst.getMobTypeLoader().getMobType(entry.getKey());
+            final MobType mobType = Main.inst.getMobTypeLoader().getMobType(entry.getKey());
             final ItemStack item = new ItemStack(mobType.getMaterial());
             final ItemMeta meta = item.getItemMeta();
             if (meta != null) {
