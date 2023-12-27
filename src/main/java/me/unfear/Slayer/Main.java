@@ -17,11 +17,14 @@ public class Main extends JavaPlugin {
 
     private MobTypeLoader mobTypeLoader;
     private SlayerLoader slayerLoader;
+    private Language language;
 
     public void onEnable() {
         inst = this;
 
         this.saveDefaultConfig();
+
+        language = new Language();
 
         this.mobTypeLoader = new MobTypeLoader();
         this.slayerLoader = new SlayerLoader();
@@ -53,5 +56,9 @@ public class Main extends JavaPlugin {
 
     public SlayerLoader getSlayerLoader() {
         return slayerLoader;
+    }
+
+    public Language getLanguage() {
+        return language;
     }
 }

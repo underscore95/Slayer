@@ -164,7 +164,7 @@ public class PlayerData {
         }
     }
 
-    public void receiveTask() {
+    public void receiveTask(Player player) {
         this.kills = 0;
 
         ArrayList<SlayerTask> tasks = Main.inst.getSlayerLoader().getSlayerTasks();
@@ -172,6 +172,9 @@ public class PlayerData {
         while (i == -1 || (tasks.get(i) == this.currentTask && tasks.size() > 1)) {
             i = RANDOM.nextInt(tasks.size()); // so the player doesn't get the same task 2x in a row
         }
-        this.setCurrentTask(tasks.get(i));
+        SlayerTask task = tasks.get(i);
+        this.setCurrentTask(task);
+
+        player.sendMessage(Main.inst.getLanguage().slayerTask(task.getKills(), task.getMobType().getName()));
     }
 }

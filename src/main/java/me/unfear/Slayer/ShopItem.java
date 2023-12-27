@@ -77,8 +77,8 @@ public class ShopItem implements Comparable<ShopItem> {
             }
 
             lore.add("");
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Cost: &5" + cost + " slayer points"));
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Click to purchase."));
+            lore.add(Main.inst.getLanguage().shopCost(cost));
+            lore.add(Main.inst.getLanguage().clickToPurchase());
             meta.setLore(lore);
             item.setItemMeta(meta);
         }

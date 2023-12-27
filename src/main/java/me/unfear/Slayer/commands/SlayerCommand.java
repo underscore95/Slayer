@@ -38,8 +38,10 @@ public class SlayerCommand implements CommandExecutor {
 			return false;
 		}
 		
-		if (!target.getName().equals(sender.getName()) && args.length > 1 && args[1].equalsIgnoreCase("-s")) sender.sendMessage(ChatColor.GRAY + "Opened the Slayer menu for " + ChatColor.YELLOW + target.getName());
-		
+		if (!target.getName().equals(sender.getName()) && args.length > 1 && args[1].equalsIgnoreCase("-s")) {
+			sender.sendMessage(ChatColor.GRAY + "Opened the Slayer menu for " + ChatColor.YELLOW + target.getName());
+		}
+
 		final PlayerData data = Main.inst.getSlayerLoader().getPlayerData(target.getUniqueId());
 		if (data.completedCurrentTask()) {
 			SlayerRewardMenu.create(data).show(target);

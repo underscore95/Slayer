@@ -1,9 +1,8 @@
 package me.unfear.Slayer.commands;
 
-import me.unfear.Slayer.PlayerData;
 import me.unfear.Slayer.Main;
+import me.unfear.Slayer.PlayerData;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,7 +16,7 @@ public class CancelTaskCommand implements CommandExecutor {
         if (sender instanceof Player) {
             player = (Player) sender;
         } else if (args.length < 1) {
-            sender.sendMessage(ChatColor.RED + "You are not a player, so you must specify a target. /canceltask <player>");
+            sender.sendMessage(Main.inst.getLanguage().cancelTaskConsole());
             return true;
         }
 
@@ -25,26 +24,26 @@ public class CancelTaskCommand implements CommandExecutor {
             if (sender.hasPermission("slayer.canceltask.others")) {
                 player = Bukkit.getPlayer(args[0]);
                 if (player == null) {
-                    sender.sendMessage(ChatColor.RED + args[0] + " is not online!");
+                    sender.sendMessage(Main.inst.getLanguage().playerOffline(args[0]));
                     return true;
                 }
             } else {
-                sender.sendMessage(ChatColor.RED + "You do not have the permission slayer.canceltask.others!");
+                sender.sendMessage(Main.inst.getLanguage().noPermission("slayer.canceltask.others"));
                 return true;
             }
         }
 
         PlayerData playerData = Main.inst.getSlayerLoader().getPlayerData(player.getUniqueId());
         if (playerData.completedCurrentTask()) {
-            sender.sendMessage(ChatColor.RED + player.getName() + " has completed their task, so it can't be cancelled!");
+            sender.sendMessage(Main.inst.getLanguage().tryCancelCompletedTask(player.getName()));
             return true;
         } else if (playerData.getCurrentTask() == null) {
-            sender.sendMessage(ChatColor.RED + player.getName() + " has no active Slayer task!");
+            sender.sendMessage(Main.inst.getLanguage().tryCancelNullTask(player.getName()));
             return true;
         }
 
         playerData.setCurrentTask(null);
-        sender.sendMessage(ChatColor.GREEN + "Slayer task cancelled!");
+        sender.sendMessage(Main.inst.getLanguage().taskCancelled());
         return true;
     }
 }

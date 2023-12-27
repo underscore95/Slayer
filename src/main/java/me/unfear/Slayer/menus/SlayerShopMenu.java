@@ -36,7 +36,7 @@ public class SlayerShopMenu {
                     List<String> lore = meta.getLore() == null ? new ArrayList<>() : meta.getLore();
                     if (shopItem.getCost() > data.getPoints()) {
                         lore.remove(lore.size() - 1);
-                        lore.add(ChatColor.RED + "You cannot afford this.");
+                        lore.add(Main.inst.getLanguage().tooExpensive());
                     }
                     meta.setLore(lore);
                 }
@@ -59,34 +59,26 @@ public class SlayerShopMenu {
         final ItemStack prevArrow = new ItemStack(Material.ARROW);
         final ItemMeta prevArrowMeta = prevArrow.getItemMeta();
         if (prevArrowMeta != null) {
-            prevArrowMeta.setDisplayName(ChatColor.GRAY + "Previous Page");
+            prevArrowMeta.setDisplayName(Main.inst.getLanguage().previousPage());
             prevArrow.setItemMeta(prevArrowMeta);
         }
 
         final ItemStack nextArrow = new ItemStack(Material.ARROW);
         final ItemMeta nextArrowMeta = nextArrow.getItemMeta();
         if (nextArrowMeta != null) {
-            nextArrowMeta.setDisplayName(ChatColor.GRAY + "Next Page");
+            nextArrowMeta.setDisplayName(Main.inst.getLanguage().nextPage());
             nextArrow.setItemMeta(nextArrowMeta);
-        }
-
-        final ItemStack slayerMaster = new ItemStack(Material.PLAYER_HEAD);
-        final ItemMeta slayerMasterMeta = slayerMaster.getItemMeta();
-        if (slayerMasterMeta != null) {
-            slayerMasterMeta.setDisplayName(ChatColor.GRAY + "Back");
-            slayerMasterMeta.setLore(List.of(ChatColor.GRAY + "Go back to the " + ChatColor.WHITE + "Slayer Master"));
-            slayerMaster.setItemMeta(slayerMasterMeta);
         }
 
         // points
         final ItemStack points = new ItemStack(Material.GOLD_NUGGET);
         final ItemMeta pointsMeta = points.getItemMeta();
         if (pointsMeta != null) {
-            pointsMeta.setDisplayName(ChatColor.GRAY + "Your Slayer Points: " + ChatColor.DARK_PURPLE + data.getPoints());
+            pointsMeta.setDisplayName(Main.inst.getLanguage().slayerPoints(data.getPoints()));
             points.setItemMeta(pointsMeta);
         }
 
-        ChestGui gui = new ChestGui(6, "Slayer Master");
+        ChestGui gui = new ChestGui(6, Main.inst.getLanguage().shopGuiTitle());
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -118,7 +110,7 @@ public class SlayerShopMenu {
             }
 
             create(data, page).show(event.getWhoClicked());
-            event.getWhoClicked().sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&lTRANSACTION COMPLETE! &7You have spent &5" + shopItem.getCost() + " &7slayer points."));
+            event.getWhoClicked().sendMessage(Main.inst.getLanguage().transactionComplete(shopItem.getCost()));
 
         });
 
@@ -150,9 +142,6 @@ public class SlayerShopMenu {
                 }
             }), 8, 0);
         }
-
-        navigation.addItem(
-                new GuiItem(slayerMaster, event -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "slayer " + event.getWhoClicked().getName() + " -s")), 2, 0);
 
         navigation.addItem(
                 new GuiItem(points), 6, 0);

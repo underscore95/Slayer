@@ -120,7 +120,7 @@ shop:
       cost: 150 # Cost in slayer points
       commands: # These commands will be executed when a player purchases the item. %player% will be replaced with the players username.
       # These commands will be executed by the console.
-       - "lp user/group %player% permission set essentials.fly true"
+       - "lp user %player% permission set essentials.fly true"
       material: FEATHER # Item type to display this as. List of item types: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
       itemAmount: 1 # Amount to show in menu, this is purely visual.
       purchases: 1 # Amount of times a player can purchase this. -1 is infinite

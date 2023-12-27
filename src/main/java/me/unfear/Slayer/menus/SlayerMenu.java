@@ -9,6 +9,7 @@ import me.unfear.Slayer.PlayerData;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -114,9 +115,7 @@ public class SlayerMenu {
                 event.getWhoClicked().sendMessage(ChatColor.RED + "You already have an active slayer task!");
                 return;
             }
-            data.receiveTask();
-            event.getWhoClicked().sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lSLAYER TASK &7Slay &f"
-                    + data.getCurrentTask().getKills() + " &7" + data.getCurrentTask().getMobType().getName()));
+            data.receiveTask((Player) event.getWhoClicked());
         }), 7, 1);
         if (data.getCurrentTask() != null)
             main.addItem(new GuiItem(current), 1, 1);
