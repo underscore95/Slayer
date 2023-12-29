@@ -5,6 +5,8 @@ import me.unfear.Slayer.commands.SlayerCommand;
 import me.unfear.Slayer.listeners.EntityDeathListener;
 import me.unfear.Slayer.listeners.SpawnerSpawnListener;
 import me.unfear.Slayer.mobtypes.MobTypeLoader;
+import me.unfear.Slayer.placeholderapi.PlaceholderHook;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -28,6 +30,8 @@ public class Main extends JavaPlugin {
 
         this.mobTypeLoader = new MobTypeLoader();
         this.slayerLoader = new SlayerLoader();
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) new PlaceholderHook().hook(getDescription(), getLogger());
 
         final PluginManager pm = this.getServer().getPluginManager();
         pm.registerEvents(new EntityDeathListener(), this);

@@ -3,8 +3,8 @@ name: Slayer
 author: unfear
 api-version: 1.13
 description: Receive slayer tasks from the Slayer Master
-version: 0.2.0
-softdepend: [MythicMobs]
+version: 0.3.0
+softdepend: [MythicMobs, PlaceholderAPI]
 commands:
    slayer:
       description: Open the slayer menu

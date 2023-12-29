@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.unfear.Slayer</groupId>
     <artifactId>Slayer</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <name>Slayer</name>
 
     <properties>
@@ -86,9 +86,23 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- Placeholder API -->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.5</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <repositories>
+        <!-- Placeholder API -->
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+
         <!-- Spigot -->
         <repository>
             <id>spigot-repo</id>

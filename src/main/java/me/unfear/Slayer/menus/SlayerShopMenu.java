@@ -144,7 +144,7 @@ public class SlayerShopMenu {
         }
 
         navigation.addItem(
-                new GuiItem(points), 6, 0);
+                new GuiItem(points), 4, 0);
 
         gui.addPane(navigation);
 
