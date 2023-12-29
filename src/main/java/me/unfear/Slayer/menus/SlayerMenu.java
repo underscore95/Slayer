@@ -5,6 +5,7 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane.Priority;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import me.unfear.Slayer.Main;
 import me.unfear.Slayer.PlayerData;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -85,12 +86,13 @@ public class SlayerMenu {
         final ItemStack receiveTask = new ItemStack(Material.IRON_SWORD);
         final ItemMeta receiveTaskMeta = receiveTask.getItemMeta();
         if (receiveTaskMeta != null) {
-            receiveTaskMeta.setDisplayName(ChatColor.YELLOW + "Receive Task");
             ArrayList<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "Click to receive a " + ChatColor.RED + "Slayer Task");
             if (data.getCurrentTask() != null) {
-                lore.add("");
-                lore.add(ChatColor.RED + "You already have a slayer task!");
+                receiveTaskMeta.setDisplayName(ChatColor.DARK_RED + "Cancel Task");
+                lore.add(ChatColor.RED + "Click to cancel your task");
+            } else {
+                receiveTaskMeta.setDisplayName(ChatColor.YELLOW + "Receive Task");
+                lore.add(ChatColor.GRAY + "Click to receive a " + ChatColor.RED + "Slayer Task");
             }
             receiveTaskMeta.setLore(lore);
             receiveTask.setItemMeta(receiveTaskMeta);
@@ -112,7 +114,8 @@ public class SlayerMenu {
         main.addItem(new GuiItem(receiveTask, event -> {
             event.getWhoClicked().closeInventory();
             if (data.getCurrentTask() != null) {
-                event.getWhoClicked().sendMessage(ChatColor.RED + "You already have an active slayer task!");
+                data.setCurrentTask(null);
+                event.getWhoClicked().sendMessage(Main.inst.getLanguage().taskCancelled());
                 return;
             }
             data.receiveTask((Player) event.getWhoClicked());
