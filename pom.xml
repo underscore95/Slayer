@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.unfear.Slayer</groupId>
     <artifactId>Slayer</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <name>Slayer</name>
 
     <properties>
@@ -81,9 +81,8 @@
         <dependency>
             <groupId>io.lumine</groupId>
             <artifactId>Mythic-Dist</artifactId>
-            <version>5.5.1</version>
+            <version>5.3.5</version>
             <scope>provided</scope>
-            <optional>true</optional>
         </dependency>
 
         <!-- Placeholder API -->

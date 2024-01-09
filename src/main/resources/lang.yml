@@ -1,6 +1,5 @@
 # GUI isn't configurable, use a GUI plugin to make your own custom menu
 
-# Commands
 CANCEL_TASK_CONSOLE: '&cYou are not a player, so you must specify a target. /canceltask <player>'
 PLAYER_OFFLINE: '&c%player% is offline.'
 NO_PERMISSION: '&cYou do not have the permission %permission%'
@@ -9,8 +8,6 @@ TRY_CANCEL_NULL_TASK: '&c%player%  has no active Slayer task!'
 TASK_CANCELLED: '&aSlayer task cancelled!'
 OPEN_SLAYER_MENU: '&7Opened the Slayer menu for &e%player%'
 SLAYER_TASK: '&c&lSLAYER TASK &7Slay &f%kills% &7%entity%'
-
-# Shop
 SHOP_COST: '&7Cost: &5%points% Slayer Points'
 SLAYER_POINTS: '&7Your Slayer Points: &5%points%'
 NEXT_PAGE: '&7Next Page'

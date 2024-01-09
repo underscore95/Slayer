@@ -3,7 +3,7 @@ name: Slayer
 author: unfear
 api-version: 1.13
 description: Receive slayer tasks from the Slayer Master
-version: 0.3.0
+version: 0.4.0
 softdepend: [MythicMobs, PlaceholderAPI]
 commands:
    slayer:
@@ -14,3 +14,15 @@ commands:
       description: Cancel a players task!
       permission: slayer.canceltask
       aliases: [cancelslayertask, slayercancel]
+   collectrewards:
+      description: Collect rewards remotely
+      permission: slayer.collectreward
+      aliases: [slayercollectreward, slayerclaimreward, collectreward]
+   slayerbuy:
+      description: Buy items remotely
+      permission: slayer.buy
+      aliases: [slayerpurchase, slayershopbuy]
+   starttask:
+      description: Start a slayer task
+      permission: slayer.startask
+      aliases: [slayerreceivetask]

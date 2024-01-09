@@ -5,6 +5,7 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane.Priority;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import me.unfear.Slayer.Main;
 import me.unfear.Slayer.PlayerData;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -44,7 +45,7 @@ public class SlayerRewardMenu {
         final StaticPane rewardPane = new StaticPane(4, 1, 1, 1);
         rewardPane.addItem(new GuiItem(reward, event -> {
             event.getWhoClicked().closeInventory();
-            event.getWhoClicked().sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&lREWARDS CLAIMED! &7You have collected your reward."));
+            event.getWhoClicked().sendMessage(ChatColor.translateAlternateColorCodes('&', Main.inst.getLanguage().rewardClaimed()));
 
             data.setTasksCompleted(data.getTasksCompleted() + 1);
             data.setPoints(data.getPoints() + data.getReward());

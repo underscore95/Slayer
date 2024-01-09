@@ -28,7 +28,7 @@ public class SlayerShopMenu {
                 data.getShopItemsPurchased().put(shopItem.getId(), 0);
 
             // can player buy more of this item? if no then don't show it
-            if (data.getShopItemsPurchased().get(shopItem.getId()) < shopItem.getPurchases()
+            if (data.getShopItemsPurchased().getOrDefault(shopItem.getId(), 0) < shopItem.getPurchases()
                     || shopItem.getPurchases() == -1) {
                 ItemStack item = shopItem.createItem();
                 ItemMeta meta = item.getItemMeta();
@@ -96,7 +96,7 @@ public class SlayerShopMenu {
             if (shopItem == null)
                 return;
             // can player buy more of this item? shouldn't be shown, but just in case
-            if (data.getShopItemsPurchased().get(shopItem.getId()) >= shopItem.getPurchases()
+            if (data.getShopItemsPurchased().getOrDefault(shopItem.getId(), 0) >= shopItem.getPurchases()
                     && shopItem.getPurchases() != -1)
                 return;
             // can player afford this item?

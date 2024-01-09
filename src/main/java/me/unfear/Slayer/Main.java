@@ -1,7 +1,6 @@
 package me.unfear.Slayer;
 
-import me.unfear.Slayer.commands.CancelTaskCommand;
-import me.unfear.Slayer.commands.SlayerCommand;
+import me.unfear.Slayer.commands.*;
 import me.unfear.Slayer.listeners.EntityDeathListener;
 import me.unfear.Slayer.listeners.SpawnerSpawnListener;
 import me.unfear.Slayer.mobtypes.MobTypeLoader;
@@ -39,6 +38,9 @@ public class Main extends JavaPlugin {
 
         Objects.requireNonNull(getCommand("slayer")).setExecutor(new SlayerCommand());
         Objects.requireNonNull(getCommand("canceltask")).setExecutor(new CancelTaskCommand());
+        Objects.requireNonNull(getCommand("collectrewards")).setExecutor(new CollectRewardCommand());
+        Objects.requireNonNull(getCommand("starttask")).setExecutor(new StartTaskCommand());
+        Objects.requireNonNull(getCommand("slayerbuy")).setExecutor(new SlayerBuyCommand(language, slayerLoader));
 
         new BukkitRunnable() {
             public void run() {
