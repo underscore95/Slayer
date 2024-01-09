@@ -42,10 +42,11 @@ public class Language {
         Main.inst.getDataFolder().mkdirs();
         if (!langFile.exists()) {
             Main.inst.saveResource("lang.yml", false);
-            defaults.keySet().forEach(key -> get(key));
         }
 
         langConfig = YamlConfiguration.loadConfiguration(langFile);
+
+        defaults.keySet().forEach(key -> get(key));
     }
 
     private String get(String key) {
