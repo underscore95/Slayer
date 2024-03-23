@@ -5,6 +5,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class Language {
@@ -159,5 +161,117 @@ public class Language {
 
     public String alreadyHasTask() {
         return Chat.format(get("ALREADY_HAS_TASK"));
+    }
+
+    public String slayerProfileName() {
+        return Chat.format(get("GUI_SLAYER_PROFILE_NAME"));
+    }
+
+    public List<String> profileLore(int amount, int points, String task) {
+        return Arrays.asList(
+                Chat.format(get("GUI_PROFILE_LORE")
+                                .replace("%amount%", String.valueOf(amount))
+                                .replace("%points%", String.valueOf(points))
+                                .replace("%task%", task))
+                        .split("%nl%"));
+    }
+
+    public String shopName() {
+        return Chat.format(get("GUI_SHOP_NAME"));
+    }
+
+    public List<String> shopLore() {
+        return Arrays.asList(
+                Chat.format(get("GUI_SHOP_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String monstersName() {
+        return Chat.format(get("GUI_MONSTERS_NAME"));
+    }
+
+    public List<String> monstersLore() {
+        return Arrays.asList(
+                Chat.format(get("GUI_MONSTERS_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String currentTaskName() {
+        return Chat.format(get("GUI_CURRENT_TASK_NAME"));
+    }
+
+    public String currentTaskProgress(int kills, int required, String mob) {
+        return Chat.format(get("GUI_CURRENT_TASK_PROGRESS")
+                .replace("%kills%", String.valueOf(kills))
+                .replace("%required%", String.valueOf(required))
+                .replace("%mob%", mob));
+    }
+
+    public String cancelTaskName() {
+        return Chat.format(get("GUI_CANCEL_TASK_NAME"));
+    }
+
+    public List<String> cancelTaskLore() {
+        return Arrays.asList(
+                Chat.format(get("GUI_CANCEL_TASK_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String receiveTaskName() {
+        return Chat.format(get("GUI_RECEIVE_TASK_NAME"));
+    }
+
+    public List<String> receiveTaskLore() {
+        return Arrays.asList(
+                Chat.format(get("GUI_RECEIVE_TASK_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String guiTitle() {
+        return Chat.format(get("GUI_TITLE"));
+    }
+
+    public String monsterGuiMonsterName(String mob) {
+        return Chat.format(get("MONSTER_GUI_MONSTER_NAME").replace("%mob%", mob));
+    }
+
+    public String monsterGuiMonsterLore(int kills) {
+        return Chat.format(get("MONSTER_GUI_MONSTER_LORE").replace("%kills%", String.valueOf(kills)));
+    }
+
+    public String monstersGuiPrevPageName() {
+        return Chat.format(get("MONSTERS_GUI_PREV_PAGE_NAME"));
+    }
+
+    public String monstersGuiNextPageName() {
+        return Chat.format(get("MONSTERS_GUI_NEXT_PAGE_NAME"));
+    }
+
+    public String monstersGuiBackName() {
+        return Chat.format(get("MONSTERS_GUI_BACK_NAME"));
+    }
+
+    public List<String> monstersGuiBackLore() {
+        return Arrays.asList(
+                Chat.format(get("MONSTERS_GUI_BACK_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String monsterGuiTitle() {
+        return Chat.format(get("MONSTER_GUI_TITLE"));
+    }
+
+    public String rewardGuiRewardName() {
+        return Chat.format(get("REWARD_GUI_REWARD_NAME"));
+    }
+
+    public List<String> rewardGuiRewardLore(int points) {
+        return Arrays.asList(
+                Chat.format(get("REWARD_GUI_REWARD_LORE").replace("%points%", String.valueOf(points)))
+                        .split("%nl%"));
+    }
+
+    public String rewardGuiTitle() {
+        return Chat.format(get("REWARD_GUI_TITLE"));
     }
 }
