@@ -1,6 +1,5 @@
 package me.unfear.Slayer;
 
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -85,78 +84,78 @@ public class Language {
     }
 
     public String playerOffline(String player) {
-        return ChatColor.translateAlternateColorCodes('&', get("PLAYER_OFFLINE").replace("%player%", player));
+        return Chat.format(get("PLAYER_OFFLINE").replace("%player%", player));
     }
 
     public String tryCancelCompletedTask(String player) {
-        return ChatColor.translateAlternateColorCodes('&', get("TRY_CANCEL_COMPLETED_TASK").replace("%player%", player));
+        return Chat.format(get("TRY_CANCEL_COMPLETED_TASK").replace("%player%", player));
     }
 
     public String tryCancelNullTask(String player) {
-        return ChatColor.translateAlternateColorCodes('&', get("TRY_CANCEL_NULL_TASK").replace("%player%", player));
+        return Chat.format(get("TRY_CANCEL_NULL_TASK").replace("%player%", player));
     }
 
     public String taskCancelled() {
-        return ChatColor.translateAlternateColorCodes('&', get("TASK_CANCELLED"));
+        return Chat.format(get("TASK_CANCELLED"));
     }
 
     public String shopCost(int points) {
-        return ChatColor.translateAlternateColorCodes('&', get("SHOP_COST").replace("%points%", String.valueOf(points)));
+        return Chat.format(get("SHOP_COST").replace("%points%", String.valueOf(points)));
     }
 
     public String slayerPoints(int points) {
-        return ChatColor.translateAlternateColorCodes('&', get("SLAYER_POINTS").replace("%points%", String.valueOf(points)));
+        return Chat.format(get("SLAYER_POINTS").replace("%points%", String.valueOf(points)));
     }
 
     public String nextPage() {
-        return ChatColor.translateAlternateColorCodes('&', get("NEXT_PAGE"));
+        return Chat.format(get("NEXT_PAGE"));
     }
 
     public String previousPage() {
-        return ChatColor.translateAlternateColorCodes('&', get("PREVIOUS_PAGE"));
+        return Chat.format(get("PREVIOUS_PAGE"));
     }
 
     public String transactionComplete(int points) {
-        return ChatColor.translateAlternateColorCodes('&', get("TRANSACTION_COMPLETE").replace("%points%", String.valueOf(points)));
+        return Chat.format(get("TRANSACTION_COMPLETE").replace("%points%", String.valueOf(points)));
     }
 
     public String shopGuiTitle() {
-        return ChatColor.translateAlternateColorCodes('&', get("SHOP_GUI_TITLE"));
+        return Chat.format(get("SHOP_GUI_TITLE"));
     }
 
     public String tooExpensive() {
-        return ChatColor.translateAlternateColorCodes('&', get("TOO_EXPENSIVE"));
+        return Chat.format(get("TOO_EXPENSIVE"));
     }
 
     public String clickToPurchase() {
-        return ChatColor.translateAlternateColorCodes('&', get("CLICK_TO_PURCHASE"));
+        return Chat.format(get("CLICK_TO_PURCHASE"));
     }
 
     public String slayerTask(int kills, String entity) {
-        return ChatColor.translateAlternateColorCodes('&', get("SLAYER_TASK")
+        return Chat.format(get("SLAYER_TASK")
                 .replace("%kills%", String.valueOf(kills))
                 .replace("%entity%", entity));
     }
 
     public String shopUsage() {
-        return ChatColor.translateAlternateColorCodes('&', get("SHOP_USAGE"));
+        return Chat.format(get("SHOP_USAGE"));
     }
 
     public String invalidShopItem() {
-        return ChatColor.translateAlternateColorCodes('&', get("INVALID_SHOP_ITEM"));
+        return Chat.format(get("INVALID_SHOP_ITEM"));
     }
 
     public String shopOutOfStock() {
-        return ChatColor.translateAlternateColorCodes('&', get("SHOP_OUT_OF_STOCK"));
+        return Chat.format(get("SHOP_OUT_OF_STOCK"));
     }
 
     public String rewardClaimed() {
-        return ChatColor.translateAlternateColorCodes('&', get("REWARD_CLAIMED"));
+        return Chat.format(get("REWARD_CLAIMED"));
     }
 
-    public String taskNotComplete() {        return ChatColor.translateAlternateColorCodes('&', get("TASK_INCOMPLETE"));
+    public String taskNotComplete() {        return Chat.format(get("TASK_INCOMPLETE"));
     }
 
-    public String alreadyHasTask() {return ChatColor.translateAlternateColorCodes('&', get("ALREADY_HAS_TASK"));
+    public String alreadyHasTask() {return Chat.format(get("ALREADY_HAS_TASK"));
     }
 }
