@@ -3,11 +3,9 @@
 
 CANCEL_TASK_CONSOLE: '&cYou are not a player, so you must specify a target. /canceltask <player>'
 PLAYER_OFFLINE: '&c%player% is offline.'
-NO_PERMISSION: '&cYou do not have the permission %permission%'
 TRY_CANCEL_COMPLETED_TASK: '&c%player% has completed their task, so it cannot be cancelled!'
 TRY_CANCEL_NULL_TASK: '&c%player%  has no active Slayer task!'
 TASK_CANCELLED: '&aSlayer task cancelled!'
-OPEN_SLAYER_MENU: '&7Opened the Slayer menu for &e%player%'
 SLAYER_TASK: '&c&lSLAYER TASK &7Slay &f%kills% &7%entity%'
 
 # Shop GUI

@@ -13,11 +13,9 @@ public class Language {
     private final FileConfiguration langConfig;
     private final Map<String, String> defaults = Map.ofEntries(
             Map.entry("PLAYER_OFFLINE", "&c%player% is offline."),
-            Map.entry("NO_PERMISSION", "&cYou do not have the permission %permission%"),
             Map.entry("TRY_CANCEL_COMPLETED_TASK", "&c%player% has completed their task, so it cannot be cancelled!"),
             Map.entry("TRY_CANCEL_NULL_TASK", "&c%player% has no active Slayer task!"),
             Map.entry("TASK_CANCELLED", "&aSlayer task cancelled!"),
-            Map.entry("OPEN_SLAYER_MENU", "&7Opened the Slayer menu for &e%player%"),
             Map.entry("SHOP_COST", "&7Cost: &5%points% Slayer Points"),
             Map.entry("SLAYER_POINTS", "&7Your Slayer Points: &5%points%"),
             Map.entry("NEXT_PAGE", "&7Next Page"),
@@ -69,7 +67,7 @@ public class Language {
 
         langConfig = YamlConfiguration.loadConfiguration(langFile);
 
-        defaults.keySet().forEach(key -> get(key));
+        defaults.keySet().forEach(this::get);
     }
 
     private String get(String key) {
@@ -90,10 +88,6 @@ public class Language {
         return ChatColor.translateAlternateColorCodes('&', get("PLAYER_OFFLINE").replace("%player%", player));
     }
 
-    public String noPermission(String permission) {
-        return ChatColor.translateAlternateColorCodes('&', get("NO_PERMISSION").replace("%permission%", permission));
-    }
-
     public String tryCancelCompletedTask(String player) {
         return ChatColor.translateAlternateColorCodes('&', get("TRY_CANCEL_COMPLETED_TASK").replace("%player%", player));
     }
@@ -104,10 +98,6 @@ public class Language {
 
     public String taskCancelled() {
         return ChatColor.translateAlternateColorCodes('&', get("TASK_CANCELLED"));
-    }
-
-    public String openSlayerMenu(String player) {
-        return ChatColor.translateAlternateColorCodes('&', get("OPEN_SLAYER_MENU").replace("%player%", player));
     }
 
     public String shopCost(int points) {
