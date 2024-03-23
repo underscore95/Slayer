@@ -153,9 +153,11 @@ public class Language {
         return Chat.format(get("REWARD_CLAIMED"));
     }
 
-    public String taskNotComplete() {        return Chat.format(get("TASK_INCOMPLETE"));
+    public String taskNotComplete() {
+        return Chat.format(get("TASK_INCOMPLETE"));
     }
 
-    public String alreadyHasTask() {return Chat.format(get("ALREADY_HAS_TASK"));
+    public String alreadyHasTask() {
+        return Chat.format(get("ALREADY_HAS_TASK"));
     }
 }
