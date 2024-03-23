@@ -39,7 +39,7 @@ public class Language {
             Map.entry("GUI_MONSTERS_NAME", "&cMonsters Slain"),
             Map.entry("GUI_MONSTERS_LORE", "&7How many monsters have you ended?"),
             Map.entry("GUI_CURRENT_TASK_NAME", "&eCurrent Slayer Task"),
-            Map.entry("GUI_CURRENT_TASK_PROGRESS", "&7Progress: &f%kills% &8/ &f%required% &7%mob% &7slain"),
+            Map.entry("GUI_CURRENT_TASK_LORE", "&4%task%%nl%&7%description%%nl%&7Progress: &f%kills% &8/ &f%required% &7%mob% &7slain"),
             Map.entry("GUI_CANCEL_TASK_NAME", "&4Cancel Task"),
             Map.entry("GUI_CANCEL_TASK_LORE", "&cClick to cancel your task"),
             Map.entry("GUI_RECEIVE_TASK_NAME", "&eReceive Task"),
@@ -200,11 +200,15 @@ public class Language {
         return Chat.format(get("GUI_CURRENT_TASK_NAME"));
     }
 
-    public String currentTaskProgress(int kills, int required, String mob) {
-        return Chat.format(get("GUI_CURRENT_TASK_PROGRESS")
-                .replace("%kills%", String.valueOf(kills))
-                .replace("%required%", String.valueOf(required))
-                .replace("%mob%", mob));
+    public List<String> currentTaskProgress(String task, List<String> description, int kills, int required, String mob) {
+        return Arrays.asList(
+                Chat.format(get("GUI_CURRENT_TASK_LORE")
+                                .replace("%task%", task)
+                                .replace("%description%", String.join("%nl%", description))
+                                .replace("%kills%", String.valueOf(kills))
+                                .replace("%required%", String.valueOf(required))
+                                .replace("%mob%", mob))
+                        .split("%nl%"));
     }
 
     public String cancelTaskName() {

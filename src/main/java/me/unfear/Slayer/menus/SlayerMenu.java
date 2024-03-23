@@ -5,6 +5,7 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane.Priority;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import me.unfear.Slayer.Language;
 import me.unfear.Slayer.Main;
 import me.unfear.Slayer.PlayerData;
 import org.bukkit.ChatColor;
@@ -15,11 +16,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class SlayerMenu {
+    private static final Language lang = Main.inst.getLanguage();
 
     public static ChestGui create(PlayerData data) {
         final ItemStack background = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
@@ -30,15 +28,12 @@ public class SlayerMenu {
         }
 
         // display some information
+        String currentTask = (data.getCurrentTask() == null ? "None" : data.getCurrentTask().getName());
         final ItemStack profile = new ItemStack(Material.BIRCH_SIGN);
         final ItemMeta profileMeta = profile.getItemMeta();
         if (profileMeta != null) {
-            profileMeta.setDisplayName(ChatColor.GOLD + "Slayer Profile");
-            profileMeta.setLore(
-                    Arrays.asList(ChatColor.GRAY + "Tasks Completed: " + ChatColor.DARK_GREEN + data.getTasksCompleted(),
-                            ChatColor.GRAY + "Slayer Points: " + ChatColor.DARK_PURPLE + data.getPoints(),
-                            ChatColor.translateAlternateColorCodes('&', "&7Current Task: &4"
-                                    + (data.getCurrentTask() == null ? "None" : data.getCurrentTask().getName()))));
+            profileMeta.setDisplayName(lang.slayerProfileName());
+            profileMeta.setLore(lang.profileLore(data.getTasksCompleted(), data.getPoints(), currentTask));
             profile.setItemMeta(profileMeta);
         }
 
@@ -46,9 +41,8 @@ public class SlayerMenu {
         final ItemStack shop = new ItemStack(Material.GOLD_NUGGET);
         final ItemMeta shopMeta = shop.getItemMeta();
         if (shopMeta != null) {
-            shopMeta.setDisplayName(ChatColor.GOLD + "Slayer Shop");
-            shopMeta.setLore(
-                    List.of(ChatColor.GRAY + "Spend your hard-earned " + ChatColor.DARK_PURPLE + "Slayer Points"));
+            shopMeta.setDisplayName(lang.shopName());
+            shopMeta.setLore(lang.shopLore());
             shop.setItemMeta(shopMeta);
         }
 
@@ -56,8 +50,8 @@ public class SlayerMenu {
         final ItemStack monsters = new ItemStack(Material.ZOMBIE_HEAD);
         final ItemMeta monstersMeta = monsters.getItemMeta();
         if (monstersMeta != null) {
-            monstersMeta.setDisplayName(ChatColor.RED + "Monsters Slain");
-            monstersMeta.setLore(List.of(ChatColor.GRAY + "How many monsters have you ended?"));
+            monstersMeta.setDisplayName(lang.monstersName());
+            monstersMeta.setLore(lang.monstersLore());
             monsters.setItemMeta(monstersMeta);
         }
 
@@ -65,17 +59,10 @@ public class SlayerMenu {
         final ItemStack current = new ItemStack(Material.ROTTEN_FLESH);
         final ItemMeta currentMeta = current.getItemMeta();
         if (currentMeta != null) {
-            currentMeta.setDisplayName(ChatColor.YELLOW + "Current Slayer Task");
+            currentMeta.setDisplayName(lang.currentTaskName());
             if (data.getCurrentTask() != null) {
-                ArrayList<String> lore = new ArrayList<>();
-                lore.add(ChatColor.translateAlternateColorCodes('&', "&4" + data.getCurrentTask().getName()));
-                for (String line : data.getCurrentTask().getDescription())
-                    lore.add(ChatColor.translateAlternateColorCodes('&', "&f" + line));
-                lore.add("");
-                lore.add(ChatColor.translateAlternateColorCodes('&',
-                        "&7Progress: &f" + data.getKills() + " &8/ &f" + data.getCurrentTask().getKills() + " &7"
-                                + data.getCurrentTask().getMobType().getName() + " slain"));
-                currentMeta.setLore(lore);
+                currentMeta.setLore(lang.currentTaskProgress(data.getCurrentTask().getName(), data.getCurrentTask().getDescription(),
+                        data.getKills(), data.getCurrentTask().getKills(), data.getCurrentTask().getMobType().getName()));
             }
             currentMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             current.setItemMeta(currentMeta);
@@ -86,19 +73,17 @@ public class SlayerMenu {
         final ItemStack receiveTask = new ItemStack(Material.IRON_SWORD);
         final ItemMeta receiveTaskMeta = receiveTask.getItemMeta();
         if (receiveTaskMeta != null) {
-            ArrayList<String> lore = new ArrayList<>();
             if (data.getCurrentTask() != null) {
-                receiveTaskMeta.setDisplayName(ChatColor.DARK_RED + "Cancel Task");
-                lore.add(ChatColor.RED + "Click to cancel your task");
+                receiveTaskMeta.setDisplayName(lang.cancelTaskName());
+                receiveTaskMeta.setLore(lang.cancelTaskLore());
             } else {
-                receiveTaskMeta.setDisplayName(ChatColor.YELLOW + "Receive Task");
-                lore.add(ChatColor.GRAY + "Click to receive a " + ChatColor.RED + "Slayer Task");
+                receiveTaskMeta.setDisplayName(lang.receiveTaskName());
+                receiveTaskMeta.setLore(lang.receiveTaskLore());
             }
-            receiveTaskMeta.setLore(lore);
             receiveTask.setItemMeta(receiveTaskMeta);
         }
 
-        final ChestGui gui = new ChestGui(3, "Slayer Master");
+        final ChestGui gui = new ChestGui(3, lang.guiTitle());
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
