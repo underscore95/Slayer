@@ -13,6 +13,7 @@ import me.unfear.Slayer.mobtypes.MobType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -30,6 +31,7 @@ public class SlayerMonstersMenu {
             final ItemStack item = new ItemStack(mobType.getMaterial());
             final ItemMeta meta = item.getItemMeta();
             if (meta != null) {
+                meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
                 meta.setDisplayName(lang.monsterGuiMonsterName(mobType.getName()));
                 meta.setLore(List.of(lang.monsterGuiMonsterLore(entry.getValue())));
                 item.setItemMeta(meta);
