@@ -73,6 +73,7 @@ public class SlayerMenu {
         final ItemStack receiveTask = new ItemStack(Material.IRON_SWORD);
         final ItemMeta receiveTaskMeta = receiveTask.getItemMeta();
         if (receiveTaskMeta != null) {
+            receiveTaskMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             if (data.getCurrentTask() != null) {
                 receiveTaskMeta.setDisplayName(lang.cancelTaskName());
                 receiveTaskMeta.setLore(lang.cancelTaskLore());
