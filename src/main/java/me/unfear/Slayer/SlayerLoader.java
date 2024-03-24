@@ -26,6 +26,7 @@ public class SlayerLoader {
     private String mainBackCommand;
     private String rewardBackCommand;
     private String monstersBackCommand;
+    private boolean cancelTask;
 
     public SlayerLoader() {
         reloadConfig();
@@ -50,6 +51,8 @@ public class SlayerLoader {
         monstersBackCommand = config.getString("back-buttons.monsters", "none");
         rewardBackCommand = config.getString("back-buttons.reward", "none");
         mainBackCommand = config.getString("back-buttons.main", "none");
+
+        cancelTask = config.getBoolean("cancel-task", true);
 
         // load the tasks
         final ConfigurationSection tasksConfig = config.getConfigurationSection("tasks");
@@ -221,6 +224,10 @@ public class SlayerLoader {
 
     public boolean isActionBarEnabled() {
         return actionBarEnabled;
+    }
+
+    public boolean isCancelTask() {
+        return cancelTask;
     }
 
     public PlayerData getPlayerData(UUID uuid) {

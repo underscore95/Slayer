@@ -113,15 +113,19 @@ public class SlayerMenu {
         main.addItem(new GuiItem(profile), 4, 2);
         main.addItem(new GuiItem(shop, event -> SlayerShopMenu.create(player, data, 0).show(event.getWhoClicked())), 4, 1);
         main.addItem(new GuiItem(monsters, event -> SlayerMonstersMenu.create(player, data, 0).show(event.getWhoClicked())), 1, 2);
-        main.addItem(new GuiItem(receiveTask, event -> {
-            event.getWhoClicked().closeInventory();
-            if (data.getCurrentTask() != null) {
-                data.setCurrentTask(null);
-                event.getWhoClicked().sendMessage(Main.inst.getLanguage().taskCancelled());
-                return;
-            }
-            data.receiveTask((Player) event.getWhoClicked());
-        }), 7, 1);
+
+        if (data.getCurrentTask() == null || Main.inst.getSlayerLoader().isCancelTask()) {
+            main.addItem(new GuiItem(receiveTask, event -> {
+                event.getWhoClicked().closeInventory();
+                if (data.getCurrentTask() != null) {
+                    data.setCurrentTask(null);
+                    event.getWhoClicked().sendMessage(Main.inst.getLanguage().taskCancelled());
+                    return;
+                }
+                data.receiveTask((Player) event.getWhoClicked());
+            }), 7, 1);
+        }
+
         if (data.getCurrentTask() != null)
             main.addItem(new GuiItem(current), 1, 1);
 

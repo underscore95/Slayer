@@ -4,6 +4,7 @@ allow-spawners: false # Should entities spawned by spawners count towards a task
 save-timer: 120 # In seconds, how often should player data be saved to disk?
 action-bar-enabled: false # Customise message in lang.yml
 claim-reward-opens-main-menu: false
+cancel-task: true # If false, it won't be possible to cancel ongoing tasks.
 back-buttons:
   shop: 'slayer %player% -s' # A back button will be placed in the shop gui that opens the slayer menu by running the command as console
   monsters: 'slayer %player% -s' # Monsters slain GUI
