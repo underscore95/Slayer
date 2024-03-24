@@ -2,6 +2,7 @@
 
 allow-spawners: false # Should entities spawned by spawners count towards a task?
 save-timer: 120 # In seconds, how often should player data be saved to disk?
+action-bar-enabled: false # Customise message in lang.yml
 
 # ALL IDS MUST BE NUMBERS
 tasks:

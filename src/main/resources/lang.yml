@@ -46,3 +46,6 @@ MONSTER_GUI_TITLE: "Slayer Master"
 REWARD_GUI_REWARD_NAME: "&aCollect Reward"
 REWARD_GUI_REWARD_LORE: "&7You have completed your task.%nl%%nl%&7Click to collect your rewards:%nl%&5%points% slayer points"
 REWARD_GUI_TITLE: "Slayer Master"
+
+# Action Bar
+ACTION_BAR: "&cSlayer Progress: &4%kills% &8/ &4%required%"

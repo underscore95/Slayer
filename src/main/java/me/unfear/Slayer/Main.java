@@ -33,7 +33,7 @@ public class Main extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) new PlaceholderHook().hook(getDescription(), getLogger());
 
         final PluginManager pm = this.getServer().getPluginManager();
-        pm.registerEvents(new EntityDeathListener(), this);
+        pm.registerEvents(new EntityDeathListener(language, slayerLoader), this);
         pm.registerEvents(new SpawnerSpawnListener(), this);
 
         Objects.requireNonNull(getCommand("slayer")).setExecutor(new SlayerCommand());

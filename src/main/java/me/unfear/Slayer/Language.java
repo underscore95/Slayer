@@ -54,7 +54,8 @@ public class Language {
             Map.entry("MONSTER_GUI_TITLE", "Slayer Master"),
             Map.entry("REWARD_GUI_REWARD_NAME", "&aCollect Reward"),
             Map.entry("REWARD_GUI_REWARD_LORE", "&7You have completed your task.%nl%%nl%&7Click to collect your rewards:%nl%&5%points% slayer points"),
-            Map.entry("REWARD_GUI_TITLE", "Slayer Master")
+            Map.entry("REWARD_GUI_TITLE", "Slayer Master"),
+            Map.entry("ACTION_BAR", "&cSlayer Progress: &4%kills% &8/ &4%required%")
     );
 
     private final File langFile;
@@ -277,5 +278,12 @@ public class Language {
 
     public String rewardGuiTitle() {
         return Chat.format(get("REWARD_GUI_TITLE"));
+    }
+
+    public String actionBar(int kills, int required) {
+        return Chat.format(get("ACTION_BAR")
+                .replace("%kills%", String.valueOf(kills))
+                .replace("%required%", String.valueOf(required))
+        );
     }
 }
