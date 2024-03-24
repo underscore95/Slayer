@@ -43,9 +43,9 @@ public class SlayerCommand implements CommandExecutor {
 
         final PlayerData data = Main.inst.getSlayerLoader().getPlayerData(target.getUniqueId());
         if (data.completedCurrentTask()) {
-            SlayerRewardMenu.create(data).show(target);
+            SlayerRewardMenu.create(target, data).show(target);
         } else {
-            SlayerMenu.create(data).show(target);
+            SlayerMenu.create(target, data).show(target);
         }
 
         return true;

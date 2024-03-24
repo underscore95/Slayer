@@ -18,7 +18,12 @@ public class SlayerLoader {
     private boolean allowSpawners;
     private int saveTimer;
     private ArrayList<ShopItem> shopItems;
-    private boolean actionBarEnabled = false;
+    private boolean actionBarEnabled;
+    private boolean claimRewardOpensMainMenu;
+    private String shopBackCommand;
+    private String mainBackCommand;
+    private String rewardBackCommand;
+    private String monstersBackCommand;
 
     public SlayerLoader() {
         this.slayerTasks = new ArrayList<>();
@@ -28,6 +33,12 @@ public class SlayerLoader {
         allowSpawners = config.getBoolean("allow-spawners");
         saveTimer = config.getInt("save-timer");
         actionBarEnabled = config.getBoolean("action-bar-enabled", false);
+        claimRewardOpensMainMenu = config.getBoolean("claim-reward-opens-main-menu", false);
+
+        shopBackCommand = config.getString("back-buttons.shop", "none");
+        monstersBackCommand = config.getString("back-buttons.monsters", "none");
+        rewardBackCommand = config.getString("back-buttons.reward", "none");
+        mainBackCommand = config.getString("back-buttons.main", "none");
 
         // load the tasks
         final ConfigurationSection tasksConfig = config.getConfigurationSection("tasks");
@@ -161,6 +172,28 @@ public class SlayerLoader {
             Main.inst.getLogger()
                     .warning("No shop items found in config.yml, players will be unable to spend slayer points.");
 
+    }
+
+
+
+    public boolean isClaimRewardOpensMainMenu() {
+        return claimRewardOpensMainMenu;
+    }
+
+    public String getShopBackCommand(String player) {
+        return shopBackCommand.replace("%player%", player);
+    }
+
+    public String getMainBackCommand(String player) {
+        return mainBackCommand.replace("%player%", player);
+    }
+
+    public String getRewardBackCommand(String player) {
+        return rewardBackCommand.replace("%player%", player);
+    }
+
+    public String getMonstersBackCommand(String player) {
+        return monstersBackCommand.replace("%player%", player);
     }
 
     public ArrayList<SlayerTask> getSlayerTasks() {

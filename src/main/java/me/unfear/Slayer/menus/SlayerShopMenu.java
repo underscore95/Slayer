@@ -7,12 +7,14 @@ import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import me.unfear.Slayer.Language;
+import me.unfear.Slayer.Main;
 import me.unfear.Slayer.PlayerData;
 import me.unfear.Slayer.ShopItem;
-import me.unfear.Slayer.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SlayerShopMenu {
+    private static final Language lang = Main.inst.getLanguage();
 
     private static ArrayList<ItemStack> getShopItems(PlayerData data) {
         ArrayList<ItemStack> items = new ArrayList<>();
@@ -48,7 +51,7 @@ public class SlayerShopMenu {
         return items;
     }
 
-    public static ChestGui create(PlayerData data, int page) {
+    public static ChestGui create(Player player, PlayerData data, int page) {
         final ItemStack background = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         final ItemMeta backgroundMeta = background.getItemMeta();
         if (backgroundMeta != null) {
@@ -74,9 +77,18 @@ public class SlayerShopMenu {
         final ItemStack points = new ItemStack(Material.GOLD_NUGGET);
         final ItemMeta pointsMeta = points.getItemMeta();
         if (pointsMeta != null) {
-            pointsMeta.setDisplayName(Main.inst.getLanguage().slayerPoints(data.getPoints()));
+            pointsMeta.setDisplayName(lang.slayerPoints(data.getPoints()));
             points.setItemMeta(pointsMeta);
         }
+
+        // back
+        final ItemStack backButton = new ItemStack(Material.ARROW);
+        final ItemMeta backButtonMeta = backButton.getItemMeta();
+        if (backButtonMeta != null) {
+            backButtonMeta.setDisplayName(lang.shopGuiBackName());
+            backButtonMeta.setLore(lang.shopGuiBackLore());
+        }
+        backButton.setItemMeta(backButtonMeta);
 
         ChestGui gui = new ChestGui(6, Main.inst.getLanguage().shopGuiTitle());
 
@@ -109,7 +121,7 @@ public class SlayerShopMenu {
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", event.getWhoClicked().getName()));
             }
 
-            create(data, page).show(event.getWhoClicked());
+            create(player, data, page).show(event.getWhoClicked());
             event.getWhoClicked().sendMessage(Main.inst.getLanguage().transactionComplete(shopItem.getCost()));
 
         });
@@ -130,17 +142,23 @@ public class SlayerShopMenu {
         if (page > 0) {
             navigation.addItem(new GuiItem(prevArrow, event -> {
                 if (pages.getPage() > 0) {
-                    create(data, page - 1).show(event.getWhoClicked());
+                    create(player, data, page - 1).show(event.getWhoClicked());
                 }
-            }), 0, 0);
+            }), 6, 0);
         }
 
         if (pages.getPage() < pages.getPages() - 1) {
             navigation.addItem(new GuiItem(new ItemStack(nextArrow), event -> {
                 if (pages.getPage() < pages.getPages() - 1) {
-                    create(data, page + 1).show(event.getWhoClicked());
+                    create(player, data, page + 1).show(event.getWhoClicked());
                 }
-            }), 8, 0);
+            }), 7, 0);
+        }
+
+        String backButtonCommand = Main.inst.getSlayerLoader().getShopBackCommand(player.getName());
+        if (!backButtonCommand.equalsIgnoreCase("none")) {
+            navigation.addItem(
+                    new GuiItem(backButton, event -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), backButtonCommand)), 0, 0);
         }
 
         navigation.addItem(

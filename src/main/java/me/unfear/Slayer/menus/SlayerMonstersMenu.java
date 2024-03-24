@@ -7,12 +7,13 @@ import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import me.unfear.Slayer.Language;
-import me.unfear.Slayer.PlayerData;
 import me.unfear.Slayer.Main;
+import me.unfear.Slayer.PlayerData;
 import me.unfear.Slayer.mobtypes.MobType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -41,7 +42,7 @@ public class SlayerMonstersMenu {
         return items;
     }
 
-    public static ChestGui create(PlayerData data, int page) {
+    public static ChestGui create(Player player, PlayerData data, int page) {
         final ItemStack background = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         final ItemMeta backgroundMeta = background.getItemMeta();
         if (backgroundMeta != null) {
@@ -63,12 +64,12 @@ public class SlayerMonstersMenu {
             nextArrow.setItemMeta(nextArrowMeta);
         }
 
-        final ItemStack slayerMaster = new ItemStack(Material.PLAYER_HEAD);
-        final ItemMeta slayerMasterMeta = slayerMaster.getItemMeta();
+        final ItemStack backButton = new ItemStack(Material.ARROW);
+        final ItemMeta slayerMasterMeta = backButton.getItemMeta();
         if (slayerMasterMeta != null) {
             slayerMasterMeta.setDisplayName(lang.monstersGuiBackName());
             slayerMasterMeta.setLore(lang.monstersGuiBackLore());
-            slayerMaster.setItemMeta(slayerMasterMeta);
+            backButton.setItemMeta(slayerMasterMeta);
         }
 
         ChestGui gui = new ChestGui(6, lang.monsterGuiTitle());
@@ -94,7 +95,7 @@ public class SlayerMonstersMenu {
         if (page > 0) {
             navigation.addItem(new GuiItem(prevArrow, event -> {
                 if (pages.getPage() > 0) {
-                    create(data, page - 1).show(event.getWhoClicked());
+                    create(player, data, page - 1).show(event.getWhoClicked());
                 }
             }), 0, 0);
         }
@@ -102,13 +103,16 @@ public class SlayerMonstersMenu {
         if (pages.getPage() < pages.getPages() - 1) {
             navigation.addItem(new GuiItem(new ItemStack(nextArrow), event -> {
                 if (pages.getPage() < pages.getPages() - 1) {
-                    create(data, page + 1).show(event.getWhoClicked());
+                    create(player, data, page + 1).show(event.getWhoClicked());
                 }
             }), 8, 0);
         }
 
-        navigation.addItem(
-                new GuiItem(slayerMaster, event -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "slayer " + event.getWhoClicked().getName() + " -s")), 2, 0);
+        String backButtonCommand = Main.inst.getSlayerLoader().getMonstersBackCommand(player.getName());
+        if (!backButtonCommand.equalsIgnoreCase("none")) {
+            navigation.addItem(
+                    new GuiItem(backButton, event -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), backButtonCommand)), 0, 2);
+        }
 
         gui.addPane(navigation);
 

@@ -18,6 +18,8 @@ TRANSACTION_COMPLETE: '&6&lTRANSACTION COMPLETE! &7You have spent &5%points% &7S
 SHOP_GUI_TITLE: "&7Slayer Master | Shop"
 TOO_EXPENSIVE: "&cYou cannot afford this."
 CLICK_TO_PURCHASE: "&7Click to purchase."
+SHOP_GUI_BACK_NAME: "&7Back"
+SHOP_GUI_BACK_LORE: "&7Go back to the &4Slayer Master"
 
 # Slayer Master GUI
 GUI_SLAYER_PROFILE_NAME: "&6Slayer Profile"
@@ -33,6 +35,8 @@ GUI_CANCEL_TASK_LORE: "&cClick to cancel your task"
 GUI_RECEIVE_TASK_NAME: "&eReceive Task"
 GUI_RECEIVE_TASK_LORE: "&7Click to receive a &4Slayer Task"
 GUI_TITLE: "Slayer Master"
+GUI_BACK_NAME: "&7Back"
+GUI_BACK_LORE: "&7Go back to the &4Slayer Master"
 
 # Monsters Slain GUI
 MONSTER_GUI_MONSTER_NAME: "&f%mob%"
@@ -47,6 +51,8 @@ MONSTER_GUI_TITLE: "Slayer Master"
 REWARD_GUI_REWARD_NAME: "&aCollect Reward"
 REWARD_GUI_REWARD_LORE: "&7You have completed your task.%nl%%nl%&7Click to collect your rewards:%nl%&5%points% slayer points"
 REWARD_GUI_TITLE: "Slayer Master"
+REWARD_GUI_BACK_NAME: "&7Back"
+REWARD_GUI_BACK_LORE: "&7Go back to the &4Slayer Master"
 
 # Action Bar
 ACTION_BAR: "&cSlayer Progress: &4%kills% &8/ &4%required%"

@@ -8,6 +8,7 @@ import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import me.unfear.Slayer.Language;
 import me.unfear.Slayer.Main;
 import me.unfear.Slayer.PlayerData;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -19,7 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class SlayerMenu {
     private static final Language lang = Main.inst.getLanguage();
 
-    public static ChestGui create(PlayerData data) {
+    public static ChestGui create(Player player, PlayerData data) {
         final ItemStack background = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         final ItemMeta backgroundMeta = background.getItemMeta();
         if (backgroundMeta != null) {
@@ -84,6 +85,15 @@ public class SlayerMenu {
             receiveTask.setItemMeta(receiveTaskMeta);
         }
 
+        // back
+        final ItemStack backButton = new ItemStack(Material.ARROW);
+        final ItemMeta backButtonMeta = backButton.getItemMeta();
+        if (backButtonMeta != null) {
+            backButtonMeta.setDisplayName(lang.guiBackName());
+            backButtonMeta.setLore(lang.guiBackLore());
+        }
+        backButton.setItemMeta(backButtonMeta);
+
         final ChestGui gui = new ChestGui(3, lang.guiTitle());
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -94,9 +104,15 @@ public class SlayerMenu {
         gui.addPane(backgroundPane);
 
         final StaticPane main = new StaticPane(0, 0, 9, 3);
+        String backButtonCommand = Main.inst.getSlayerLoader().getMainBackCommand(player.getName());
+        if (!backButtonCommand.equalsIgnoreCase("none")) {
+            main.addItem(
+                    new GuiItem(backButton, event -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), backButtonCommand)), 0, 2);
+        }
+
         main.addItem(new GuiItem(profile), 4, 2);
-        main.addItem(new GuiItem(shop, event -> SlayerShopMenu.create(data, 0).show(event.getWhoClicked())), 4, 1);
-        main.addItem(new GuiItem(monsters, event -> SlayerMonstersMenu.create(data, 0).show(event.getWhoClicked())), 1, 2);
+        main.addItem(new GuiItem(shop, event -> SlayerShopMenu.create(player, data, 0).show(event.getWhoClicked())), 4, 1);
+        main.addItem(new GuiItem(monsters, event -> SlayerMonstersMenu.create(player, data, 0).show(event.getWhoClicked())), 1, 2);
         main.addItem(new GuiItem(receiveTask, event -> {
             event.getWhoClicked().closeInventory();
             if (data.getCurrentTask() != null) {

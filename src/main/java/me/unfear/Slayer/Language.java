@@ -56,7 +56,13 @@ public class Language {
             Map.entry("REWARD_GUI_REWARD_LORE", "&7You have completed your task.%nl%%nl%&7Click to collect your rewards:%nl%&5%points% slayer points"),
             Map.entry("REWARD_GUI_TITLE", "Slayer Master"),
             Map.entry("ACTION_BAR", "&cSlayer Progress: &4%kills% &8/ &4%required%"),
-            Map.entry("SLAYER_COMPLETE", "&6&lSLAYER COMPLETE! &7Please collect your rewards.")
+            Map.entry("SLAYER_COMPLETE", "&6&lSLAYER COMPLETE! &7Please collect your rewards."),
+            Map.entry("REWARD_GUI_BACK_NAME", "&7Back"),
+            Map.entry("REWARD_GUI_BACK_LORE", "&7Go back to the &4Slayer Master"),
+            Map.entry("GUI_BACK_NAME", "&7Back"),
+            Map.entry("GUI_BACK_LORE", "&7Go back to the &4Slayer Master"),
+            Map.entry("SHOP_GUI_BACK_NAME", "&7Back"),
+            Map.entry("SHOP_GUI_BACK_LORE", "&7Go back to the &4Slayer Master")
     );
 
     private final File langFile;
@@ -290,5 +296,35 @@ public class Language {
                 .replace("%kills%", String.valueOf(kills))
                 .replace("%required%", String.valueOf(required))
         );
+    }
+
+    public String rewardGuiBackName() {
+        return Chat.format(get("REWARD_GUI_BACK_NAME"));
+    }
+
+    public List<String> rewardGuiBackLore() {
+        return Arrays.asList(
+                Chat.format(get("REWARD_GUI_BACK_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String guiBackName() {
+        return Chat.format(get("GUI_BACK_NAME"));
+    }
+
+    public List<String> guiBackLore() {
+        return Arrays.asList(
+                Chat.format(get("GUI_BACK_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String shopGuiBackName() {
+        return Chat.format(get("SHOP_GUI_BACK_NAME"));
+    }
+
+    public List<String> shopGuiBackLore() {
+        return Arrays.asList(
+                Chat.format(get("SHOP_GUI_BACK_LORE"))
+                        .split("%nl%"));
     }
 }
