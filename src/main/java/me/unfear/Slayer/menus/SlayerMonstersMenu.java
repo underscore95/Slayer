@@ -6,12 +6,15 @@ import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import me.unfear.Slayer.PlayerData;
+import me.unfear.Slayer.Language;
 import me.unfear.Slayer.Main;
+import me.unfear.Slayer.PlayerData;
 import me.unfear.Slayer.mobtypes.MobType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -20,6 +23,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 public class SlayerMonstersMenu {
+    private static final Language lang = Main.inst.getLanguage();
 
     private static ArrayList<ItemStack> getMonsterItems(PlayerData data) {
         ArrayList<ItemStack> items = new ArrayList<>();
@@ -28,8 +32,9 @@ public class SlayerMonstersMenu {
             final ItemStack item = new ItemStack(mobType.getMaterial());
             final ItemMeta meta = item.getItemMeta();
             if (meta != null) {
-                meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&f" + mobType.getName()));
-                meta.setLore(List.of(ChatColor.GRAY + "Number Defeated: " + ChatColor.RED + entry.getValue()));
+                meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                meta.setDisplayName(lang.monsterGuiMonsterName(mobType.getName()));
+                meta.setLore(List.of(lang.monsterGuiMonsterLore(entry.getValue())));
                 item.setItemMeta(meta);
             }
             items.add(item);
@@ -37,7 +42,7 @@ public class SlayerMonstersMenu {
         return items;
     }
 
-    public static ChestGui create(PlayerData data, int page) {
+    public static ChestGui create(Player player, PlayerData data, int page) {
         final ItemStack background = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         final ItemMeta backgroundMeta = background.getItemMeta();
         if (backgroundMeta != null) {
@@ -48,26 +53,26 @@ public class SlayerMonstersMenu {
         final ItemStack prevArrow = new ItemStack(Material.ARROW);
         final ItemMeta prevArrowMeta = prevArrow.getItemMeta();
         if (prevArrowMeta != null) {
-            prevArrowMeta.setDisplayName(ChatColor.GRAY + "Previous Page");
+            prevArrowMeta.setDisplayName(lang.monstersGuiPrevPageName());
             prevArrow.setItemMeta(prevArrowMeta);
         }
 
         final ItemStack nextArrow = new ItemStack(Material.ARROW);
         final ItemMeta nextArrowMeta = nextArrow.getItemMeta();
         if (nextArrowMeta != null) {
-            nextArrowMeta.setDisplayName(ChatColor.GRAY + "Next Page");
+            nextArrowMeta.setDisplayName(lang.monstersGuiNextPageName());
             nextArrow.setItemMeta(nextArrowMeta);
         }
 
-        final ItemStack slayerMaster = new ItemStack(Material.PLAYER_HEAD);
-        final ItemMeta slayerMasterMeta = slayerMaster.getItemMeta();
+        final ItemStack backButton = new ItemStack(Material.ARROW);
+        final ItemMeta slayerMasterMeta = backButton.getItemMeta();
         if (slayerMasterMeta != null) {
-            slayerMasterMeta.setDisplayName(ChatColor.GRAY + "Back");
-            slayerMasterMeta.setLore(List.of(ChatColor.GRAY + "Go back to the " + ChatColor.WHITE + "Slayer Master"));
-            slayerMaster.setItemMeta(slayerMasterMeta);
+            slayerMasterMeta.setDisplayName(lang.monstersGuiBackName());
+            slayerMasterMeta.setLore(lang.monstersGuiBackLore());
+            backButton.setItemMeta(slayerMasterMeta);
         }
 
-        ChestGui gui = new ChestGui(6, "Slayer Master");
+        ChestGui gui = new ChestGui(6, lang.monsterGuiTitle());
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -90,7 +95,7 @@ public class SlayerMonstersMenu {
         if (page > 0) {
             navigation.addItem(new GuiItem(prevArrow, event -> {
                 if (pages.getPage() > 0) {
-                    create(data, page - 1).show(event.getWhoClicked());
+                    create(player, data, page - 1).show(event.getWhoClicked());
                 }
             }), 0, 0);
         }
@@ -98,13 +103,16 @@ public class SlayerMonstersMenu {
         if (pages.getPage() < pages.getPages() - 1) {
             navigation.addItem(new GuiItem(new ItemStack(nextArrow), event -> {
                 if (pages.getPage() < pages.getPages() - 1) {
-                    create(data, page + 1).show(event.getWhoClicked());
+                    create(player, data, page + 1).show(event.getWhoClicked());
                 }
             }), 8, 0);
         }
 
-        navigation.addItem(
-                new GuiItem(slayerMaster, event -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "slayer " + event.getWhoClicked().getName() + " -s")), 2, 0);
+        String backButtonCommand = Main.inst.getSlayerLoader().getMonstersBackCommand(player.getName());
+        if (!backButtonCommand.equalsIgnoreCase("none")) {
+            navigation.addItem(
+                    new GuiItem(backButton, event -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), backButtonCommand)), 0, 2);
+        }
 
         gui.addPane(navigation);
 

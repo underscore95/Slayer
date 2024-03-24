@@ -1,23 +1,21 @@
 package me.unfear.Slayer;
 
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Language {
-
-    private final FileConfiguration langConfig;
-    private final Map<String, String> defaults = Map.ofEntries(
+    private static Map<String, String> MSG_DEFAULTS = Map.ofEntries(
             Map.entry("PLAYER_OFFLINE", "&c%player% is offline."),
-            Map.entry("NO_PERMISSION", "&cYou do not have the permission %permission%"),
             Map.entry("TRY_CANCEL_COMPLETED_TASK", "&c%player% has completed their task, so it cannot be cancelled!"),
             Map.entry("TRY_CANCEL_NULL_TASK", "&c%player% has no active Slayer task!"),
             Map.entry("TASK_CANCELLED", "&aSlayer task cancelled!"),
-            Map.entry("OPEN_SLAYER_MENU", "&7Opened the Slayer menu for &e%player%"),
             Map.entry("SHOP_COST", "&7Cost: &5%points% Slayer Points"),
             Map.entry("SLAYER_POINTS", "&7Your Slayer Points: &5%points%"),
             Map.entry("NEXT_PAGE", "&7Next Page"),
@@ -32,12 +30,52 @@ public class Language {
             Map.entry("SHOP_OUT_OF_STOCK", "&cYou can't buy more of this item!"),
             Map.entry("REWARD_CLAIMED", "&6&lREWARDS CLAIMED! &7You have collected your reward."),
             Map.entry("TASK_INCOMPLETE", "&cRewards cannot be claimed for an incomplete task."),
-            Map.entry("ALREADY_HAS_TASK", "&cCannot start two tasks simultaneously.")
+            Map.entry("ALREADY_HAS_TASK", "&cCannot start two tasks simultaneously."),
+            Map.entry("GUI_SLAYER_PROFILE_NAME", "&6Slayer Profile"),
+            Map.entry("GUI_PROFILE_LORE", "&7Tasks Completed: &2%amount%%nl%&7Slayer Points: &5%points%%nl%&7Current Task: &4%task%"),
+            Map.entry("GUI_SHOP_NAME", "&6Slayer Shop"),
+            Map.entry("GUI_SHOP_LORE", "&7Spend your hard-earned &2Slayer Points"),
+            Map.entry("GUI_MONSTERS_NAME", "&cMonsters Slain"),
+            Map.entry("GUI_MONSTERS_LORE", "&7How many monsters have you ended?"),
+            Map.entry("GUI_CURRENT_TASK_NAME", "&eCurrent Slayer Task"),
+            Map.entry("GUI_CURRENT_TASK_LORE", "&4%task%%nl%&7%description%%nl%&7Progress: &f%kills% &8/ &f%required% &7%mob% &7slain"),
+            Map.entry("GUI_CANCEL_TASK_NAME", "&4Cancel Task"),
+            Map.entry("GUI_CANCEL_TASK_LORE", "&cClick to cancel your task"),
+            Map.entry("GUI_RECEIVE_TASK_NAME", "&eReceive Task"),
+            Map.entry("GUI_RECEIVE_TASK_LORE", "&7Click to receive a &4Slayer Task"),
+            Map.entry("GUI_TITLE", "Slayer Master"),
+            Map.entry("MONSTER_GUI_MONSTER_NAME", "&f%mob%"),
+            Map.entry("MONSTER_GUI_MONSTER_LORE", "&7Number Defeated: &c%kills%"),
+            Map.entry("MONSTERS_GUI_PREV_PAGE_NAME", "&7Previous Page"),
+            Map.entry("MONSTERS_GUI_NEXT_PAGE_NAME", "&7Next Page"),
+            Map.entry("MONSTERS_GUI_BACK_NAME", "&7Back"),
+            Map.entry("MONSTERS_GUI_BACK_LORE", "&7Go back to the &4Slayer Master"),
+            Map.entry("MONSTER_GUI_TITLE", "Slayer Master"),
+            Map.entry("REWARD_GUI_REWARD_NAME", "&aCollect Reward"),
+            Map.entry("REWARD_GUI_REWARD_LORE", "&7You have completed your task.%nl%%nl%&7Click to collect your rewards:%nl%&5%points% slayer points"),
+            Map.entry("REWARD_GUI_TITLE", "Slayer Master"),
+            Map.entry("ACTION_BAR", "&cSlayer Progress: &4%kills% &8/ &4%required%"),
+            Map.entry("SLAYER_COMPLETE", "&6&lSLAYER COMPLETE! &7Please collect your rewards."),
+            Map.entry("REWARD_GUI_BACK_NAME", "&7Back"),
+            Map.entry("REWARD_GUI_BACK_LORE", "&7Go back to the &4Slayer Master"),
+            Map.entry("GUI_BACK_NAME", "&7Back"),
+            Map.entry("GUI_BACK_LORE", "&7Go back to the &4Slayer Master"),
+            Map.entry("SHOP_GUI_BACK_NAME", "&7Back"),
+            Map.entry("SHOP_GUI_BACK_LORE", "&7Go back to the &4Slayer Master")
     );
 
-    private final File langFile;
+    private Map<String, String> defaults;
+
+    private File langFile;
+    private FileConfiguration langConfig;
 
     public Language() {
+        reloadConfig();
+    }
+
+    public void reloadConfig() {
+        defaults = new HashMap<>(MSG_DEFAULTS);
+
         langFile = new File(Main.inst.getDataFolder(), "lang.yml");
         Main.inst.getDataFolder().mkdirs();
         if (!langFile.exists()) {
@@ -46,7 +84,7 @@ public class Language {
 
         langConfig = YamlConfiguration.loadConfiguration(langFile);
 
-        defaults.keySet().forEach(key -> get(key));
+        defaults.keySet().forEach(this::get);
     }
 
     private String get(String key) {
@@ -63,87 +101,238 @@ public class Language {
         return message;
     }
 
-    public String playerOffline(String player) {
-        return ChatColor.translateAlternateColorCodes('&', get("PLAYER_OFFLINE").replace("%player%", player));
+    public String slayerComplete() {
+        return Chat.format(get("SLAYER_COMPLETE"));
     }
 
-    public String noPermission(String permission) {
-        return ChatColor.translateAlternateColorCodes('&', get("NO_PERMISSION").replace("%permission%", permission));
+    public String playerOffline(String player) {
+        return Chat.format(get("PLAYER_OFFLINE").replace("%player%", player));
     }
 
     public String tryCancelCompletedTask(String player) {
-        return ChatColor.translateAlternateColorCodes('&', get("TRY_CANCEL_COMPLETED_TASK").replace("%player%", player));
+        return Chat.format(get("TRY_CANCEL_COMPLETED_TASK").replace("%player%", player));
     }
 
     public String tryCancelNullTask(String player) {
-        return ChatColor.translateAlternateColorCodes('&', get("TRY_CANCEL_NULL_TASK").replace("%player%", player));
+        return Chat.format(get("TRY_CANCEL_NULL_TASK").replace("%player%", player));
     }
 
     public String taskCancelled() {
-        return ChatColor.translateAlternateColorCodes('&', get("TASK_CANCELLED"));
-    }
-
-    public String openSlayerMenu(String player) {
-        return ChatColor.translateAlternateColorCodes('&', get("OPEN_SLAYER_MENU").replace("%player%", player));
+        return Chat.format(get("TASK_CANCELLED"));
     }
 
     public String shopCost(int points) {
-        return ChatColor.translateAlternateColorCodes('&', get("SHOP_COST").replace("%points%", String.valueOf(points)));
+        return Chat.format(get("SHOP_COST").replace("%points%", String.valueOf(points)));
     }
 
     public String slayerPoints(int points) {
-        return ChatColor.translateAlternateColorCodes('&', get("SLAYER_POINTS").replace("%points%", String.valueOf(points)));
+        return Chat.format(get("SLAYER_POINTS").replace("%points%", String.valueOf(points)));
     }
 
     public String nextPage() {
-        return ChatColor.translateAlternateColorCodes('&', get("NEXT_PAGE"));
+        return Chat.format(get("NEXT_PAGE"));
     }
 
     public String previousPage() {
-        return ChatColor.translateAlternateColorCodes('&', get("PREVIOUS_PAGE"));
+        return Chat.format(get("PREVIOUS_PAGE"));
     }
 
     public String transactionComplete(int points) {
-        return ChatColor.translateAlternateColorCodes('&', get("TRANSACTION_COMPLETE").replace("%points%", String.valueOf(points)));
+        return Chat.format(get("TRANSACTION_COMPLETE").replace("%points%", String.valueOf(points)));
     }
 
     public String shopGuiTitle() {
-        return ChatColor.translateAlternateColorCodes('&', get("SHOP_GUI_TITLE"));
+        return Chat.format(get("SHOP_GUI_TITLE"));
     }
 
     public String tooExpensive() {
-        return ChatColor.translateAlternateColorCodes('&', get("TOO_EXPENSIVE"));
+        return Chat.format(get("TOO_EXPENSIVE"));
     }
 
     public String clickToPurchase() {
-        return ChatColor.translateAlternateColorCodes('&', get("CLICK_TO_PURCHASE"));
+        return Chat.format(get("CLICK_TO_PURCHASE"));
     }
 
     public String slayerTask(int kills, String entity) {
-        return ChatColor.translateAlternateColorCodes('&', get("SLAYER_TASK")
+        return Chat.format(get("SLAYER_TASK")
                 .replace("%kills%", String.valueOf(kills))
                 .replace("%entity%", entity));
     }
 
     public String shopUsage() {
-        return ChatColor.translateAlternateColorCodes('&', get("SHOP_USAGE"));
+        return Chat.format(get("SHOP_USAGE"));
     }
 
     public String invalidShopItem() {
-        return ChatColor.translateAlternateColorCodes('&', get("INVALID_SHOP_ITEM"));
+        return Chat.format(get("INVALID_SHOP_ITEM"));
     }
 
     public String shopOutOfStock() {
-        return ChatColor.translateAlternateColorCodes('&', get("SHOP_OUT_OF_STOCK"));
+        return Chat.format(get("SHOP_OUT_OF_STOCK"));
     }
 
     public String rewardClaimed() {
-        return ChatColor.translateAlternateColorCodes('&', get("REWARD_CLAIMED"));
+        return Chat.format(get("REWARD_CLAIMED"));
     }
 
-    public String taskNotComplete() {        return ChatColor.translateAlternateColorCodes('&', get("TASK_INCOMPLETE"));
+    public String taskNotComplete() {
+        return Chat.format(get("TASK_INCOMPLETE"));
     }
 
-    public String alreadyHasTask() {return ChatColor.translateAlternateColorCodes('&', get("ALREADY_HAS_TASK"));
+    public String alreadyHasTask() {
+        return Chat.format(get("ALREADY_HAS_TASK"));
+    }
+
+    public String slayerProfileName() {
+        return Chat.format(get("GUI_SLAYER_PROFILE_NAME"));
+    }
+
+    public List<String> profileLore(int amount, int points, String task) {
+        return Arrays.asList(
+                Chat.format(get("GUI_PROFILE_LORE")
+                                .replace("%amount%", String.valueOf(amount))
+                                .replace("%points%", String.valueOf(points))
+                                .replace("%task%", task))
+                        .split("%nl%"));
+    }
+
+    public String shopName() {
+        return Chat.format(get("GUI_SHOP_NAME"));
+    }
+
+    public List<String> shopLore() {
+        return Arrays.asList(
+                Chat.format(get("GUI_SHOP_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String monstersName() {
+        return Chat.format(get("GUI_MONSTERS_NAME"));
+    }
+
+    public List<String> monstersLore() {
+        return Arrays.asList(
+                Chat.format(get("GUI_MONSTERS_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String currentTaskName() {
+        return Chat.format(get("GUI_CURRENT_TASK_NAME"));
+    }
+
+    public List<String> currentTaskProgress(String task, List<String> description, int kills, int required, String mob) {
+        return Arrays.asList(
+                Chat.format(get("GUI_CURRENT_TASK_LORE")
+                                .replace("%task%", task)
+                                .replace("%description%", String.join("%nl%", description))
+                                .replace("%kills%", String.valueOf(kills))
+                                .replace("%required%", String.valueOf(required))
+                                .replace("%mob%", mob))
+                        .split("%nl%"));
+    }
+
+    public String cancelTaskName() {
+        return Chat.format(get("GUI_CANCEL_TASK_NAME"));
+    }
+
+    public List<String> cancelTaskLore() {
+        return Arrays.asList(
+                Chat.format(get("GUI_CANCEL_TASK_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String receiveTaskName() {
+        return Chat.format(get("GUI_RECEIVE_TASK_NAME"));
+    }
+
+    public List<String> receiveTaskLore() {
+        return Arrays.asList(
+                Chat.format(get("GUI_RECEIVE_TASK_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String guiTitle() {
+        return Chat.format(get("GUI_TITLE"));
+    }
+
+    public String monsterGuiMonsterName(String mob) {
+        return Chat.format(get("MONSTER_GUI_MONSTER_NAME").replace("%mob%", mob));
+    }
+
+    public String monsterGuiMonsterLore(int kills) {
+        return Chat.format(get("MONSTER_GUI_MONSTER_LORE").replace("%kills%", String.valueOf(kills)));
+    }
+
+    public String monstersGuiPrevPageName() {
+        return Chat.format(get("MONSTERS_GUI_PREV_PAGE_NAME"));
+    }
+
+    public String monstersGuiNextPageName() {
+        return Chat.format(get("MONSTERS_GUI_NEXT_PAGE_NAME"));
+    }
+
+    public String monstersGuiBackName() {
+        return Chat.format(get("MONSTERS_GUI_BACK_NAME"));
+    }
+
+    public List<String> monstersGuiBackLore() {
+        return Arrays.asList(
+                Chat.format(get("MONSTERS_GUI_BACK_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String monsterGuiTitle() {
+        return Chat.format(get("MONSTER_GUI_TITLE"));
+    }
+
+    public String rewardGuiRewardName() {
+        return Chat.format(get("REWARD_GUI_REWARD_NAME"));
+    }
+
+    public List<String> rewardGuiRewardLore(int points) {
+        return Arrays.asList(
+                Chat.format(get("REWARD_GUI_REWARD_LORE").replace("%points%", String.valueOf(points)))
+                        .split("%nl%"));
+    }
+
+    public String rewardGuiTitle() {
+        return Chat.format(get("REWARD_GUI_TITLE"));
+    }
+
+    public String actionBar(int kills, int required) {
+        return Chat.format(get("ACTION_BAR")
+                .replace("%kills%", String.valueOf(kills))
+                .replace("%required%", String.valueOf(required))
+        );
+    }
+
+    public String rewardGuiBackName() {
+        return Chat.format(get("REWARD_GUI_BACK_NAME"));
+    }
+
+    public List<String> rewardGuiBackLore() {
+        return Arrays.asList(
+                Chat.format(get("REWARD_GUI_BACK_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String guiBackName() {
+        return Chat.format(get("GUI_BACK_NAME"));
+    }
+
+    public List<String> guiBackLore() {
+        return Arrays.asList(
+                Chat.format(get("GUI_BACK_LORE"))
+                        .split("%nl%"));
+    }
+
+    public String shopGuiBackName() {
+        return Chat.format(get("SHOP_GUI_BACK_NAME"));
+    }
+
+    public List<String> shopGuiBackLore() {
+        return Arrays.asList(
+                Chat.format(get("SHOP_GUI_BACK_LORE"))
+                        .split("%nl%"));
     }
 }

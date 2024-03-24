@@ -11,7 +11,7 @@ mob-types:
       type: VANILLA
       material: ENDER_PEARL
    2:
-      name: Guardian
+      name: "#0000ffGuardian" # Supports hex codes
       entity: GUARDIAN
       type: VANILLA
       material: IRON_SWORD
@@ -29,7 +29,7 @@ mob-types:
       name: Skeleton
       entity: SKELETON
       type: VANILLA
-      # Omitting material will default to SKELETON_SKULL
+      material: SKELETON_SKULL
    6:
       name: Pufferfish
       entity: PUFFERFISH

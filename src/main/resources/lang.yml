@@ -1,13 +1,15 @@
-# GUI isn't configurable, use a GUI plugin to make your own custom menu
+# Supports hex codes: #FF0000This is red!
+# For lore, use %nl% for a new line
 
 CANCEL_TASK_CONSOLE: '&cYou are not a player, so you must specify a target. /canceltask <player>'
 PLAYER_OFFLINE: '&c%player% is offline.'
-NO_PERMISSION: '&cYou do not have the permission %permission%'
 TRY_CANCEL_COMPLETED_TASK: '&c%player% has completed their task, so it cannot be cancelled!'
 TRY_CANCEL_NULL_TASK: '&c%player%  has no active Slayer task!'
 TASK_CANCELLED: '&aSlayer task cancelled!'
-OPEN_SLAYER_MENU: '&7Opened the Slayer menu for &e%player%'
 SLAYER_TASK: '&c&lSLAYER TASK &7Slay &f%kills% &7%entity%'
+SLAYER_COMPLETE: '&6&lSLAYER COMPLETE! &7Please collect your rewards.'
+
+# Shop GUI
 SHOP_COST: '&7Cost: &5%points% Slayer Points'
 SLAYER_POINTS: '&7Your Slayer Points: &5%points%'
 NEXT_PAGE: '&7Next Page'
@@ -16,3 +18,41 @@ TRANSACTION_COMPLETE: '&6&lTRANSACTION COMPLETE! &7You have spent &5%points% &7S
 SHOP_GUI_TITLE: "&7Slayer Master | Shop"
 TOO_EXPENSIVE: "&cYou cannot afford this."
 CLICK_TO_PURCHASE: "&7Click to purchase."
+SHOP_GUI_BACK_NAME: "&7Back"
+SHOP_GUI_BACK_LORE: "&7Go back to the &4Slayer Master"
+
+# Slayer Master GUI
+GUI_SLAYER_PROFILE_NAME: "&6Slayer Profile"
+GUI_PROFILE_LORE: "&7Tasks Completed: &2%amount%%nl%&7Slayer Points: &5%points%%nl%&7Current Task: &4%task%"
+GUI_SHOP_NAME: "&6Slayer Shop"
+GUI_SHOP_LORE: "&7Spend your hard-earned &2Slayer Points"
+GUI_MONSTERS_NAME: "&cMonsters Slain"
+GUI_MONSTERS_LORE: "&7How many monsters have you ended?"
+GUI_CURRENT_TASK_NAME: "&eCurrent Slayer Task"
+GUI_CURRENT_TASK_PROGRESS: "&4%task%%nl%&7%description%%nl%&7Progress: &f%kills% &8/ &f%required% &7%mob% &7slain"
+GUI_CANCEL_TASK_NAME: "&4Cancel Task"
+GUI_CANCEL_TASK_LORE: "&cClick to cancel your task"
+GUI_RECEIVE_TASK_NAME: "&eReceive Task"
+GUI_RECEIVE_TASK_LORE: "&7Click to receive a &4Slayer Task"
+GUI_TITLE: "Slayer Master"
+GUI_BACK_NAME: "&7Back"
+GUI_BACK_LORE: "&7Go back to the &4Slayer Master"
+
+# Monsters Slain GUI
+MONSTER_GUI_MONSTER_NAME: "&f%mob%"
+MONSTER_GUI_MONSTER_LORE: "&7Number Defeated: &c%kills%"
+MONSTERS_GUI_PREV_PAGE_NAME: "&7Previous Page"
+MONSTERS_GUI_NEXT_PAGE_NAME: "&7Next Page"
+MONSTERS_GUI_BACK_NAME: "&7Back"
+MONSTERS_GUI_BACK_LORE: "&7Go back to the &4Slayer Master"
+MONSTER_GUI_TITLE: "Slayer Master"
+
+# Reward GUI
+REWARD_GUI_REWARD_NAME: "&aCollect Reward"
+REWARD_GUI_REWARD_LORE: "&7You have completed your task.%nl%%nl%&7Click to collect your rewards:%nl%&5%points% slayer points"
+REWARD_GUI_TITLE: "Slayer Master"
+REWARD_GUI_BACK_NAME: "&7Back"
+REWARD_GUI_BACK_LORE: "&7Go back to the &4Slayer Master"
+
+# Action Bar
+ACTION_BAR: "&cSlayer Progress: &4%kills% &8/ &4%required%"
