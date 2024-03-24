@@ -6,13 +6,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Language {
-
-    private final FileConfiguration langConfig;
-    private final Map<String, String> defaults = Map.ofEntries(
+    private static Map<String, String> MSG_DEFAULTS = Map.ofEntries(
             Map.entry("PLAYER_OFFLINE", "&c%player% is offline."),
             Map.entry("TRY_CANCEL_COMPLETED_TASK", "&c%player% has completed their task, so it cannot be cancelled!"),
             Map.entry("TRY_CANCEL_NULL_TASK", "&c%player% has no active Slayer task!"),
@@ -65,9 +64,18 @@ public class Language {
             Map.entry("SHOP_GUI_BACK_LORE", "&7Go back to the &4Slayer Master")
     );
 
-    private final File langFile;
+    private Map<String, String> defaults;
+
+    private File langFile;
+    private FileConfiguration langConfig;
 
     public Language() {
+        reloadConfig();
+    }
+
+    public void reloadConfig() {
+        defaults = new HashMap<>(MSG_DEFAULTS);
+
         langFile = new File(Main.inst.getDataFolder(), "lang.yml");
         Main.inst.getDataFolder().mkdirs();
         if (!langFile.exists()) {

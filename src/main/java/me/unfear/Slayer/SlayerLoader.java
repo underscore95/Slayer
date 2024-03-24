@@ -3,10 +3,12 @@ package me.unfear.Slayer;
 import me.unfear.Slayer.mobtypes.MobType;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,9 +28,18 @@ public class SlayerLoader {
     private String monstersBackCommand;
 
     public SlayerLoader() {
+        reloadConfig();
+    }
+
+    public void reloadConfig() {
         this.slayerTasks = new ArrayList<>();
 
         final FileConfiguration config = Main.inst.getConfig();
+        try {
+            config.load(new File(Main.inst.getDataFolder(), "config.yml"));
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
 
         allowSpawners = config.getBoolean("allow-spawners");
         saveTimer = config.getInt("save-timer");
@@ -105,7 +116,6 @@ public class SlayerLoader {
             slayerTasks.add(new SlayerTask(id, mobType, kills, name, description, reward));
         }
 
-        this.playerData = new HashSet<>();
         this.shopItems = new ArrayList<>();
 
         ConfigurationSection shopSection = config.getConfigurationSection("shop");
@@ -172,8 +182,13 @@ public class SlayerLoader {
             Main.inst.getLogger()
                     .warning("No shop items found in config.yml, players will be unable to spend slayer points.");
 
-    }
+        // DATA
+        if (playerData != null) {
+            save();
+        }
+        playerData = new HashSet<>();
 
+    }
 
 
     public boolean isClaimRewardOpensMainMenu() {

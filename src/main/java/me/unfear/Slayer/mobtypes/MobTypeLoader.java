@@ -18,6 +18,11 @@ public class MobTypeLoader {
     private final Set<MobType> mobTypes = new HashSet<>();
 
     public MobTypeLoader() {
+        reloadConfig();
+    }
+
+    public void reloadConfig() {
+        mobTypes.clear();
 
         final File file = new File(Main.inst.getDataFolder(), "mob-types.yml");
 
