@@ -55,7 +55,8 @@ public class Language {
             Map.entry("REWARD_GUI_REWARD_NAME", "&aCollect Reward"),
             Map.entry("REWARD_GUI_REWARD_LORE", "&7You have completed your task.%nl%%nl%&7Click to collect your rewards:%nl%&5%points% slayer points"),
             Map.entry("REWARD_GUI_TITLE", "Slayer Master"),
-            Map.entry("ACTION_BAR", "&cSlayer Progress: &4%kills% &8/ &4%required%")
+            Map.entry("ACTION_BAR", "&cSlayer Progress: &4%kills% &8/ &4%required%"),
+            Map.entry("SLAYER_COMPLETE", "&6&lSLAYER COMPLETE! &7Please collect your rewards.")
     );
 
     private final File langFile;
@@ -84,6 +85,10 @@ public class Language {
             }
         }
         return message;
+    }
+
+    public String slayerComplete() {
+        return Chat.format(get("SLAYER_COMPLETE"));
     }
 
     public String playerOffline(String player) {

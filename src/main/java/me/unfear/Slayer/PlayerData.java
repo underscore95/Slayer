@@ -2,7 +2,6 @@ package me.unfear.Slayer;
 
 import me.unfear.Slayer.mobtypes.MobType;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -71,8 +70,7 @@ public class PlayerData {
 
         Player p = Bukkit.getPlayer(player);
         if (p == null) return;
-        p.sendMessage(
-                ChatColor.translateAlternateColorCodes('&', "&6&lSLAYER COMPLETE! &7Please collect your rewards."));
+        p.sendMessage(Main.inst.getLanguage().slayerComplete());
         this.hasSentMessage = true;
     }
 

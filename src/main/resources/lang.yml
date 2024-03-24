@@ -7,6 +7,7 @@ TRY_CANCEL_COMPLETED_TASK: '&c%player% has completed their task, so it cannot be
 TRY_CANCEL_NULL_TASK: '&c%player%  has no active Slayer task!'
 TASK_CANCELLED: '&aSlayer task cancelled!'
 SLAYER_TASK: '&c&lSLAYER TASK &7Slay &f%kills% &7%entity%'
+SLAYER_COMPLETE: '&6&lSLAYER COMPLETE! &7Please collect your rewards.'
 
 # Shop GUI
 SHOP_COST: '&7Cost: &5%points% Slayer Points'
