@@ -1,7 +1,6 @@
 package me.unfear.Slayer;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -25,8 +24,11 @@ public class ShopItem implements Comparable<ShopItem> {
                     Material material, int itemAmount, int purchases) {
         super();
         this.id = id;
-        this.name = name;
-        this.description = description;
+        this.name = Chat.format(name);
+        this.description = new ArrayList<>(description.size());
+        for (String line : description) {
+            this.description.add(Chat.format(line));
+        }
         this.cost = cost;
         this.commands = commands;
         this.material = material;
@@ -70,11 +72,9 @@ public class ShopItem implements Comparable<ShopItem> {
         final ItemStack item = new ItemStack(material, itemAmount);
         final ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&f" + name));
+            meta.setDisplayName(name);
             ArrayList<String> lore = new ArrayList<>();
-            for (String s : description) {
-                lore.add(ChatColor.translateAlternateColorCodes('&', "&7" + s));
-            }
+            lore.addAll(description);
 
             lore.add("");
             lore.add(Main.inst.getLanguage().shopCost(cost));
