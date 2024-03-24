@@ -5,6 +5,7 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane.Priority;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import me.unfear.Slayer.Language;
 import me.unfear.Slayer.Main;
 import me.unfear.Slayer.PlayerData;
 import org.bukkit.ChatColor;
@@ -12,9 +13,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
-
 public class SlayerRewardMenu {
+    private static final Language lang = Main.inst.getLanguage();
 
     public static ChestGui create(PlayerData data) {
         final ItemStack background = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
@@ -26,13 +26,11 @@ public class SlayerRewardMenu {
 
         final ItemStack reward = new ItemStack(Material.GOLD_BLOCK);
         final ItemMeta rewardMeta = background.getItemMeta();
-        rewardMeta.setDisplayName(ChatColor.GREEN + "Collect Reward");
-        rewardMeta.setLore(Arrays.asList(ChatColor.GRAY + "You have completed your task.", "",
-                ChatColor.GRAY + "Click to collect your rewards:",
-                ChatColor.DARK_PURPLE.toString() + data.getReward() + " slayer points"));
+        rewardMeta.setDisplayName(lang.rewardGuiRewardName());
+        rewardMeta.setLore(lang.rewardGuiRewardLore(data.getReward()));
         reward.setItemMeta(rewardMeta);
 
-        final ChestGui gui = new ChestGui(3, "Slayer Master");
+        final ChestGui gui = new ChestGui(3, lang.rewardGuiTitle());
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -45,7 +43,7 @@ public class SlayerRewardMenu {
         final StaticPane rewardPane = new StaticPane(4, 1, 1, 1);
         rewardPane.addItem(new GuiItem(reward, event -> {
             event.getWhoClicked().closeInventory();
-            event.getWhoClicked().sendMessage(ChatColor.translateAlternateColorCodes('&', Main.inst.getLanguage().rewardClaimed()));
+            event.getWhoClicked().sendMessage(Main.inst.getLanguage().rewardClaimed());
 
             data.setTasksCompleted(data.getTasksCompleted() + 1);
             data.setPoints(data.getPoints() + data.getReward());
