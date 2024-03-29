@@ -4,7 +4,7 @@
   <groupId>me.unfear.Slayer</groupId>
   <artifactId>Slayer</artifactId>
   <name>Slayer</name>
-  <version>0.5.1</version>
+  <version>0.5.2</version>
   <build>
     <plugins>
       <plugin>

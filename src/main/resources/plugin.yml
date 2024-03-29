@@ -3,7 +3,7 @@ name: Slayer
 author: unfear
 api-version: 1.13
 description: Receive slayer tasks from the Slayer Master
-version: 0.5.0
+version: 0.5.2
 softdepend: [ MythicMobs, PlaceholderAPI ]
 commands:
   slayer:
@@ -26,6 +26,10 @@ commands:
     description: Start a slayer task
     permission: slayer.startask
     aliases: [ slayerreceivetask ]
+  givepoints:
+    description: Give slayer points to someone
+    permission: slayer.givepoints
+    aliases: [ slayergivepoints, giveslayerpoints ]
   reloadslayer:
     description: Reload Slayer configs
     permission: slayer.reload

@@ -41,6 +41,7 @@ public class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("collectrewards")).setExecutor(new CollectRewardCommand());
         Objects.requireNonNull(getCommand("starttask")).setExecutor(new StartTaskCommand());
         Objects.requireNonNull(getCommand("slayerbuy")).setExecutor(new SlayerBuyCommand(language, slayerLoader));
+        Objects.requireNonNull(getCommand("givepoints")).setExecutor(new GivePointsCommand(language, slayerLoader));
         Objects.requireNonNull(getCommand("reloadslayer")).setExecutor(new ReloadSlayerCommand(mobTypeLoader, language, slayerLoader));
 
         new BukkitRunnable() {
